@@ -22,7 +22,12 @@ async function isProgressSyncEnabled(): Promise<boolean> {
   }
 }
 
-function buildLocator(state: PlaybackState): PlaybackLocator | null {
+type ProgressSnapshot = Pick<
+  PlaybackState,
+  "currentItem" | "positionSeconds" | "durationSeconds"
+>;
+
+function buildLocator(state: ProgressSnapshot): PlaybackLocator | null {
   const item = state.currentItem;
   if (!item) return null;
 
@@ -39,7 +44,9 @@ function buildLocator(state: PlaybackState): PlaybackLocator | null {
   };
 }
 
-function shouldSyncProgress(state: PlaybackState): boolean {
+function shouldSyncProgress(
+  state: Pick<PlaybackState, "currentItem">,
+): boolean {
   const item = state.currentItem;
   if (!item) return false;
   if (item.subject.type === "live_tv_channel") return false;
@@ -78,16 +85,17 @@ export async function flushPlaybackProgress(
 export function usePlaybackProgressSync(state: PlaybackState) {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastSentRef = useRef<string>("");
+  const { currentItem, positionSeconds, durationSeconds, status } = state;
 
   useEffect(() => {
     void isProgressSyncEnabled();
   }, []);
 
   useEffect(() => {
-    const item = state.currentItem;
+    const item = currentItem;
     if (!item) return;
-    if (!shouldSyncProgress(state)) return;
-    if (!["playing", "paused"].includes(state.status)) return;
+    if (!shouldSyncProgress({ currentItem })) return;
+    if (!["playing", "paused"].includes(status)) return;
 
     if (timerRef.current) clearTimeout(timerRef.current);
 
@@ -96,7 +104,11 @@ export function usePlaybackProgressSync(state: PlaybackState) {
         const enabled = await isProgressSyncEnabled();
         if (!enabled) return;
 
-        const locator = buildLocator(state);
+        const locator = buildLocator({
+          currentItem,
+          positionSeconds,
+          durationSeconds,
+        });
         if (!locator) return;
 
         const fingerprint = JSON.stringify({
@@ -126,10 +138,5 @@ export function usePlaybackProgressSync(state: PlaybackState) {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [
-    state.currentItem,
-    state.positionSeconds,
-    state.durationSeconds,
-    state.status,
-  ]);
+  }, [currentItem, positionSeconds, durationSeconds, status]);
 }

@@ -22,4 +22,25 @@ describe("production configuration", () => {
       }).NODE_ENV,
     ).toBe("production");
   });
+
+  it("encodes the compose password when deriving the database connection", () => {
+    const config = loadConfig({
+      NODE_ENV: "production",
+      SESSION_SECRET: "a-unique-secret-at-least-32-characters",
+      POSTGRES_PASSWORD: "a:/?#@% password",
+    });
+    const url = new URL(config.DATABASE_URL);
+    expect(decodeURIComponent(url.password)).toBe("a:/?#@% password");
+    expect(url.hostname).toBe("postgres");
+    expect(url.pathname).toBe("/feylore");
+  });
+
+  it("prefers an explicit external database URL", () => {
+    const config = loadConfig({
+      ...base,
+      SESSION_SECRET: "a-unique-secret-at-least-32-characters",
+      POSTGRES_PASSWORD: "ignored",
+    });
+    expect(config.DATABASE_URL).toBe(base.DATABASE_URL);
+  });
 });

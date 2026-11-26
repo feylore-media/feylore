@@ -38,6 +38,7 @@ import type { ProcessingPolicyResolver } from "../processing/policy-resolver.js"
 import type { MetadataFormattingService } from "../metadata/formatting.js";
 import { IngestWatcher } from "./watcher.js";
 import { recoverIncompleteIngestItems } from "./recovery.js";
+import { SystemSettingsService } from "../settings/system-service.js";
 
 export class IngestService {
   readonly items: IngestItemService;
@@ -213,7 +214,9 @@ export class IngestService {
 
   async deleteRoot(id: string) {
     await this.getRoot(id);
-    await this.db.delete(schema.ingestRoots).where(eq(schema.ingestRoots.id, id));
+    await this.db
+      .delete(schema.ingestRoots)
+      .where(eq(schema.ingestRoots.id, id));
     await this.reloadWatcher();
   }
 
@@ -315,7 +318,9 @@ export class IngestService {
       this.getUploadStagingDir(params.uploadId),
       safeName,
     );
-    const adapter = this.files.getStorageService().getAdapter(params.storageLocationId);
+    const adapter = this.files
+      .getStorageService()
+      .getAdapter(params.storageLocationId);
     await adapter.write(relativePath, params.data);
     const checksum = createHash("sha256").update(params.data).digest("hex");
     return { relativePath, checksum, size: params.data.length, safeName };
@@ -357,9 +362,7 @@ export async function bootstrapIngestStorage(
   ): Promise<string> => {
     const resolved = path.resolve(rootPath);
     await fs.mkdir(resolved, { recursive: true });
-    const match = existing.find(
-      (l) => path.resolve(l.rootPath) === resolved,
-    );
+    const match = existing.find((l) => path.resolve(l.rootPath) === resolved);
     if (match) return match.id;
 
     const id = generateId();
@@ -377,10 +380,15 @@ export async function bootstrapIngestStorage(
   await ensureManagedLocation(config.STORAGE_ROOT, "Application Storage");
 
   const ingestRootPath = config.INGEST_ROOT;
-  const defaultLib = await libraries.ensureDefaultBookLibrary(
-    config.LIBRARY_BOOKS_ROOT,
-  );
-  await libraries.ensureDefaultAudiobookLibrary(config.LIBRARY_AUDIOBOOKS_ROOT);
+  const enabled = await new SystemSettingsService(db).getEnabledModules();
+  const defaultLib = enabled.includes("books")
+    ? await libraries.ensureDefaultBookLibrary(config.LIBRARY_BOOKS_ROOT)
+    : null;
+  if (enabled.includes("audiobooks")) {
+    await libraries.ensureDefaultAudiobookLibrary(
+      config.LIBRARY_AUDIOBOOKS_ROOT,
+    );
+  }
 
   let ingestStorageId: string | undefined;
 
@@ -390,10 +398,12 @@ export async function bootstrapIngestStorage(
     });
   }
 
-  await db
-    .update(schema.ingestRoots)
-    .set({ defaultLibraryId: defaultLib.id, updatedAt: new Date() })
-    .where(isNull(schema.ingestRoots.defaultLibraryId));
+  if (defaultLib) {
+    await db
+      .update(schema.ingestRoots)
+      .set({ defaultLibraryId: defaultLib.id, updatedAt: new Date() })
+      .where(isNull(schema.ingestRoots.defaultLibraryId));
+  }
 
   if (ingestStorageId) {
     const root = await db.query.ingestRoots.findFirst({
@@ -405,7 +415,7 @@ export async function bootstrapIngestStorage(
         id: rootId,
         name: "Default Ingest",
         storageLocationId: ingestStorageId,
-        defaultLibraryId: defaultLib.id,
+        defaultLibraryId: defaultLib?.id,
       });
     }
   }

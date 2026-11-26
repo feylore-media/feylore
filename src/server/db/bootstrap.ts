@@ -1,7 +1,7 @@
 import { asc, count, eq } from "drizzle-orm";
 import type { Database } from "./client.js";
 import * as schema from "./schema.js";
-import { seed } from "./seed.js";
+import { initializeSystemRecords } from "./system-seed.js";
 import { ROLE_NAMES } from "../../shared/permissions.js";
 
 /**
@@ -11,7 +11,7 @@ import { ROLE_NAMES } from "../../shared/permissions.js";
  * - users with no role assignments
  */
 export async function bootstrapRbac(db: Database) {
-  await seed(db);
+  await initializeSystemRecords(db);
 
   const adminRole = await db.query.roles.findFirst({
     where: eq(schema.roles.name, ROLE_NAMES.ADMIN),

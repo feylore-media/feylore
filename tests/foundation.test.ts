@@ -70,7 +70,9 @@ describe("Feylore foundation integration", () => {
     const db2 = createDb(pool);
 
     const adminId = generateId();
-    await db2.delete(schema.users).where(eq(schema.users.email, "admin@test.local"));
+    await db2
+      .delete(schema.users)
+      .where(eq(schema.users.email, "admin@test.local"));
     await db2.insert(schema.users).values({
       id: adminId,
       email: "admin@test.local",
@@ -88,7 +90,9 @@ describe("Feylore foundation integration", () => {
     }
 
     const memberId = generateId();
-    await db2.delete(schema.users).where(eq(schema.users.email, "member@test.local"));
+    await db2
+      .delete(schema.users)
+      .where(eq(schema.users.email, "member@test.local"));
     await db2.insert(schema.users).values({
       id: memberId,
       email: "member@test.local",
@@ -215,7 +219,11 @@ describe("Feylore foundation integration", () => {
         provider: stubProvider,
       });
       const db = createDb(pool);
-      const metadata = new MetadataService(db, registry, "test-secret-key-16chars");
+      const metadata = new MetadataService(
+        db,
+        registry,
+        "test-secret-key-16chars",
+      );
       const subjectId = generateId();
 
       await metadata.upsertProvider({
@@ -268,7 +276,11 @@ describe("Feylore foundation integration", () => {
       },
     });
     const db = createDb(pool);
-    const metadata = new MetadataService(db, registry, "test-secret-key-16chars");
+    const metadata = new MetadataService(
+      db,
+      registry,
+      "test-secret-key-16chars",
+    );
     await metadata.upsertProvider({
       key: "disabled-test",
       contractVersion: "feylore.metadata.provider.v1",
@@ -330,7 +342,12 @@ describe("Feylore foundation integration", () => {
     const jobId = generateId();
     await db
       .insert(schema.jobRuns)
-      .values({ id: jobId, type: "library.scan", taskKey: jobId, status: "queued" });
+      .values({
+        id: jobId,
+        type: "library.scan",
+        taskKey: jobId,
+        status: "queued",
+      });
     const cancelRes = await app.inject({
       method: "POST",
       url: `/api/v1/jobs/${jobId}/cancel`,
@@ -389,9 +406,10 @@ describe("Feylore foundation integration", () => {
     },
   );
 
-  it.skipIf(!dbAvailable || process.env.NODE_ENV !== "production")(
-    "rejects CSRF without origin",
-    async () => {
+  it.skipIf(!dbAvailable)("rejects CSRF without origin", async () => {
+    const previousEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "production";
+    try {
       const res = await app.inject({
         method: "POST",
         url: "/api/v1/shelves",
@@ -399,8 +417,10 @@ describe("Feylore foundation integration", () => {
         payload: { name: "Test", kind: "basic", visibility: "private" },
       });
       expect(res.statusCode).toBe(403);
-    },
-  );
+    } finally {
+      process.env.NODE_ENV = previousEnv;
+    }
+  });
 
   it.skipIf(!dbAvailable)(
     "authorization uses permissions not role names",

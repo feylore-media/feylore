@@ -40,27 +40,23 @@ jobs:
       - run: pnpm build
       - run: docker build -t feylore:ci .
       - run: docker run --rm --entrypoint node feylore:ci -e "require('@node-rs/argon2').hash('test').then(() => process.exit(0))"
-      - name: Smoke test API and worker
+      - name: Smoke test supervised application
         shell: bash
         run: |
           set -euo pipefail
-          trap 'docker rm -f feylore-ci-api feylore-ci-worker >/dev/null 2>&1 || true' EXIT
-          for service in api worker; do
-            if [ "$service" = api ]; then entry=index; else entry=worker; fi
-            docker run -d --name "feylore-ci-$service" --network host \
-              -e DATABASE_URL="$DATABASE_URL" -e SESSION_SECRET="$SESSION_SECRET" \
-              -e APP_URL=http://localhost:3000 feylore:ci \
-              node "dist/server/server/$entry.js"
-          done
+          trap 'docker rm -f feylore-ci >/dev/null 2>&1 || true' EXIT
+          docker run -d --name feylore-ci --network host \
+            -e DATABASE_URL="$DATABASE_URL" -e SESSION_SECRET="$SESSION_SECRET" \
+            -e APP_URL=http://localhost:3000 feylore:ci
           for port in 3000 3001; do
             ready=false
             for attempt in {1..60}; do
               if curl --fail --silent "http://127.0.0.1:$port/health/ready" >/dev/null; then ready=true; break; fi
+              echo "Waiting for port $port (attempt $attempt/60)"
               sleep 2
             done
             if [ "$ready" != true ]; then
-              docker logs feylore-ci-api
-              docker logs feylore-ci-worker
+              docker logs feylore-ci
               exit 1
             fi
           done

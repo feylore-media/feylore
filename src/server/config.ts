@@ -160,7 +160,12 @@ function buildSmtpConfig(
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
-  const parsed = envSchema.parse(env);
+  const databaseUrl =
+    env.DATABASE_URL ||
+    (env.POSTGRES_PASSWORD
+      ? `postgresql://feylore:${encodeURIComponent(env.POSTGRES_PASSWORD)}@postgres:5432/feylore`
+      : undefined);
+  const parsed = envSchema.parse({ ...env, DATABASE_URL: databaseUrl });
   if (
     parsed.NODE_ENV === "production" &&
     (parsed.SESSION_SECRET === "dev-session-secret-change-in-production" ||
