@@ -37,12 +37,18 @@ jobs:
           tags: feylore:scan
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      - uses: aquasecurity/trivy-action@0.34.0
+      - uses: aquasecurity/trivy-action@v0.34.0
         with:
           image-ref: feylore:scan
           exit-code: '1'
           severity: CRITICAL,HIGH
           ignore-unfixed: true
+      - name: Scan image layers for secrets
+        uses: aquasecurity/trivy-action@v0.34.0
+        with:
+          image-ref: feylore:scan
+          scanners: secret
+          exit-code: '1'
       - uses: docker/login-action@v3
         if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/tags/v')
         with:
@@ -65,3 +71,21 @@ jobs:
           cache-to: type=gha,mode=max
           sbom: true
           provenance: mode=max
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify public visibility and publish release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(gh api repos/feylore-media/feylore --jq .private)" = false
+          test "$(gh api orgs/feylore-media/packages/container/feylore --jq .visibility)" = public
+          gh release create "$GITHUB_REF_NAME" compose.yaml .env.example --verify-tag --generate-notes

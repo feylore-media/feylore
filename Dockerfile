@@ -23,14 +23,14 @@ LABEL org.opencontainers.image.title="Feylore" \
       org.opencontainers.image.version=$VERSION \
       org.opencontainers.image.revision=$REVISION \
       org.opencontainers.image.created=$BUILD_DATE
-ENV NODE_ENV=production STORAGE_ROOT=/data/storage INGEST_ROOT=/data/ingest \
-    LIBRARY_BOOKS_ROOT=/data/library/books LIBRARY_AUDIOBOOKS_ROOT=/data/library/audiobooks LIBRARY_MUSIC_ROOT=/data/library/music \
+ENV NODE_ENV=production STORAGE_ROOT=/data/storage INGEST_ROOT=/ingest \
+    LIBRARY_BOOKS_ROOT=/libraries/books LIBRARY_AUDIOBOOKS_ROOT=/libraries/audiobooks LIBRARY_MUSIC_ROOT=/libraries/music \
     FEYLORE_VERSION=$VERSION FEYLORE_COMMIT=$REVISION FEYLORE_BUILD_DATE=$BUILD_DATE FEYLORE_CHANNEL=$CHANNEL FEYLORE_INSTALLATION_TYPE=docker
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg tini ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
-    && mkdir -p /data/storage /data/ingest /media/books /media/audiobooks /media/music \
-    && chown -R node:node /data
+    && mkdir -p /data/storage /ingest /libraries/books /libraries/audiobooks /libraries/podcasts /libraries/music /libraries/movies /libraries/tv /libraries/ttrpg \
+    && chown -R node:node /data /ingest /libraries
 COPY --from=production-dependencies /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY package.json ./package.json
