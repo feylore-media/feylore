@@ -1,8 +1,7 @@
-name: Docker distribution
+name: Nightly
 on:
   push:
-    branches: [main, develop]
-    tags: ['v*']
+    branches: [develop]
   pull_request:
   workflow_dispatch:
 permissions:
