@@ -1,7 +1,10 @@
 import type { PlaybackState } from "../context/playbackReducer";
 
 interface MediaSessionBinding {
-  state: PlaybackState;
+  state: Pick<
+    PlaybackState,
+    "currentItem" | "status" | "positionSeconds" | "durationSeconds"
+  >;
   onPlay: () => void;
   onPause: () => void;
   onSeek: (positionSeconds: number) => void;

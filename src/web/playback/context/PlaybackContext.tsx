@@ -61,8 +61,9 @@ function createEngineForItem(
   if (item.mediaKind === "video") {
     const engine = createVideoEngine() as VideoEngine;
     engine.setVolume(readStoredVolume());
-    (window as unknown as { __feyloreVideoEngine?: VideoEngine }).__feyloreVideoEngine =
-      engine;
+    (
+      window as unknown as { __feyloreVideoEngine?: VideoEngine }
+    ).__feyloreVideoEngine = engine;
     return engine;
   }
   return null;
@@ -246,7 +247,9 @@ export function PlaybackProvider({ children }: { children: React.ReactNode }) {
         }>(
           `/playback/progress?subjectType=${encodeURIComponent(item.subject.type)}&subjectId=${encodeURIComponent(item.subject.id)}`,
         );
-        resumeSeconds = resolvePlaybackResumePosition(progressRes.data?.locator);
+        resumeSeconds = resolvePlaybackResumePosition(
+          progressRes.data?.locator,
+        );
       } catch {
         resumeSeconds = 0;
       }
@@ -288,13 +291,15 @@ export function PlaybackProvider({ children }: { children: React.ReactNode }) {
   usePlayerPresence(state);
 
   useEffect(() => {
-    const item = state.currentItem;
-    const status = state.status;
-    const positionSeconds = state.positionSeconds;
     const token = sessionTokenRef.current;
 
     return bindMediaSession({
-      state: { ...state, currentItem: item, status, positionSeconds },
+      state: {
+        currentItem: state.currentItem,
+        status: state.status,
+        positionSeconds: state.positionSeconds,
+        durationSeconds: state.durationSeconds,
+      },
       onPlay: () => {
         if (!isCurrentSession(token)) return;
         void engineRef.current?.play();
@@ -322,10 +327,6 @@ export function PlaybackProvider({ children }: { children: React.ReactNode }) {
     state.status,
     state.positionSeconds,
     state.durationSeconds,
-    state.queue,
-    state.queueIndex,
-    state.error,
-    state.expanded,
     isCurrentSession,
   ]);
 
@@ -379,12 +380,15 @@ export function PlaybackProvider({ children }: { children: React.ReactNode }) {
     void playManifest(manifest);
   }, [clearFinishedDismissTimer, playManifest]);
 
-  const setVolume = useCallback((nextVolume: number) => {
-    const clamped = Math.min(1, Math.max(0, nextVolume));
-    setVolumeState(clamped);
-    writeStoredVolume(clamped);
-    engineRef.current?.setVolume(clamped);
-  }, [setVolumeState]);
+  const setVolume = useCallback(
+    (nextVolume: number) => {
+      const clamped = Math.min(1, Math.max(0, nextVolume));
+      setVolumeState(clamped);
+      writeStoredVolume(clamped);
+      engineRef.current?.setVolume(clamped);
+    },
+    [setVolumeState],
+  );
 
   const value = useMemo<PlaybackContextValue>(
     () => ({
@@ -399,8 +403,7 @@ export function PlaybackProvider({ children }: { children: React.ReactNode }) {
         dispatch({ type: "REMOVE_FROM_QUEUE", index }),
       stopPlayback,
       replay,
-      setExpanded: (expanded) =>
-        dispatch({ type: "SET_EXPANDED", expanded }),
+      setExpanded: (expanded) => dispatch({ type: "SET_EXPANDED", expanded }),
       setVolume,
       volume,
     }),
