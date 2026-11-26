@@ -3,7 +3,10 @@ import pg from "pg";
 import * as schema from "./schema.js";
 
 export function createPool(databaseUrl: string) {
-  return new pg.Pool({ connectionString: databaseUrl });
+  return new pg.Pool({
+    connectionString: databaseUrl,
+    connectionTimeoutMillis: 5000,
+  });
 }
 
 export function createDb(pool: pg.Pool) {

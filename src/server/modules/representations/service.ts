@@ -1,4 +1,4 @@
-import { eq, and, inArray, ilike, asc, sql } from "drizzle-orm";
+import { eq, and, asc, sql } from "drizzle-orm";
 import type { Database } from "../../db/client.js";
 import * as schema from "../../db/schema.js";
 import { generateId } from "../../security/crypto.js";

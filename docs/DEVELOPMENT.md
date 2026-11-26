@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- **Node.js 24 LTS** required
-- **pnpm** 9+
+- **Node.js 26 LTS** required
+- **pnpm 11.24.0**, as pinned in `package.json`
 - **Docker** (for PostgreSQL)
 - **Git**
 

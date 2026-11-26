@@ -31,7 +31,6 @@ const dbAvailable = await (async () => {
 
 describe("Activity API", () => {
   let app: Awaited<ReturnType<typeof buildApp>>["app"];
-  let ctx: Awaited<ReturnType<typeof buildApp>>["ctx"];
   let pool: Awaited<ReturnType<typeof buildApp>>["pool"];
   let cookie = "";
   let otherCookie = "";
@@ -54,7 +53,6 @@ describe("Activity API", () => {
 
     const built = await buildApp();
     app = built.app;
-    ctx = built.ctx;
     pool = built.pool;
 
     const userId = generateId();

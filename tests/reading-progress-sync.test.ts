@@ -239,7 +239,7 @@ describe("Reading progress idempotency", () => {
     expect(first.accepted).toBe(true);
     expect(second.accepted).toBe(true);
     if (first.accepted && second.accepted) {
-      expect(second.idempotent).toBe(true);
+      expect("idempotent" in second && second.idempotent).toBe(true);
       expect(second.progress.version).toBe(first.progress.version);
     }
   });

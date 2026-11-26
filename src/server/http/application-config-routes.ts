@@ -54,6 +54,21 @@ export async function registerApplicationConfigRoutes(
     return { data: ctx.applicationConfig.getGeneral(config) };
   });
 
+  app.get("/api/v1/admin/system/version", async (request) => {
+    const user = requireAuth(request);
+    ctx.authz.require(user, PERMISSIONS.SYSTEM_SETTINGS_READ);
+    return {
+      data: {
+        version: process.env.FEYLORE_VERSION ?? "development",
+        channel: process.env.FEYLORE_CHANNEL ?? "development",
+        commit: process.env.FEYLORE_COMMIT ?? "unknown",
+        buildDate: process.env.FEYLORE_BUILD_DATE ?? "unknown",
+        architecture: process.arch,
+        installationType: process.env.FEYLORE_INSTALLATION_TYPE ?? "source",
+      },
+    };
+  });
+
   app.patch("/api/v1/admin/system/configuration", async (request) => {
     const user = requireAuth(request);
     ctx.authz.require(user, PERMISSIONS.SYSTEM_SETTINGS_WRITE);

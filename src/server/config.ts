@@ -16,9 +16,10 @@ function parseBool(val: string | undefined, defaultVal: boolean): boolean {
   return val === "true" || val === "1";
 }
 
-export function normalizeIssuerUrl(
-  url: string,
-): { issuerUrl: string; issuerOrigin: string } {
+export function normalizeIssuerUrl(url: string): {
+  issuerUrl: string;
+  issuerOrigin: string;
+} {
   const parsed = new URL(url);
   let pathname = parsed.pathname;
   if (!pathname.endsWith("/")) pathname += "/";
@@ -103,7 +104,10 @@ function buildAuthConfig(env: z.infer<typeof envSchema>): AuthConfig {
   return {
     internalEnabled: parseBool(env.AUTH_INTERNAL_ENABLED, true),
     oidcEnabled: parseBool(env.AUTH_OIDC_ENABLED, false),
-    internalRecoveryEnabled: parseBool(env.AUTH_INTERNAL_RECOVERY_ENABLED, true),
+    internalRecoveryEnabled: parseBool(
+      env.AUTH_INTERNAL_RECOVERY_ENABLED,
+      true,
+    ),
   };
 }
 
@@ -157,6 +161,15 @@ function buildSmtpConfig(
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   const parsed = envSchema.parse(env);
+  if (
+    parsed.NODE_ENV === "production" &&
+    (parsed.SESSION_SECRET === "dev-session-secret-change-in-production" ||
+      parsed.SESSION_SECRET.length < 32)
+  ) {
+    throw new Error(
+      "Production SESSION_SECRET must be at least 32 characters and must not use the development default",
+    );
+  }
   const auth = buildAuthConfig(parsed);
 
   if (!auth.internalEnabled && !auth.oidcEnabled) {

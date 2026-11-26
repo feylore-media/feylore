@@ -5,7 +5,6 @@ import {
   asc,
   ilike,
   inArray,
-  sql,
   isNull,
 } from "drizzle-orm";
 import type { Database } from "../../db/client.js";

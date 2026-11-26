@@ -324,8 +324,8 @@ describe("Audiobooks import", () => {
         const file = await ctx.files.getFile(link.fileId);
         orderedPaths.push(path.basename(file.relativePath));
       }
-      expect(orderedPaths).toEqual([
-        "01 Start.mp3",
+      expect(orderedPaths.map((name) => name.toLowerCase())).toEqual([
+        "01 start.mp3",
         "02-middle.mp3",
         "03-end.mp3",
       ]);

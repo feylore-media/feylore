@@ -7,10 +7,13 @@ import { ensureDefaultMetadataProviders } from "./modules/metadata/ensure-defaul
 import { startPodcastFeedSweep } from "./modules/podcasts/worker-sweep.js";
 import { startClubScheduleSweep } from "./modules/clubs/worker-sweep.js";
 import { startChallengeSweep } from "./modules/challenges/worker-sweep.js";
+import { applyStartupMigrations } from "./db/startup-migrations.js";
+import { createServer } from "node:http";
 
 async function main() {
   const config = loadConfig();
   const pool = createPool(config.DATABASE_URL);
+  if (config.NODE_ENV === "production") await applyStartupMigrations(pool);
   const db = createDb(pool);
   const ctx = createContext(config, db);
   await ensureDefaultMetadataProviders(ctx.metadata, ctx.metadataRegistry);
@@ -59,9 +62,29 @@ async function main() {
   );
   const stopChallengeSweep = startChallengeSweep(ctx.challenges);
 
+  const health = createServer(async (request, response) => {
+    if (request.url !== "/health/ready") {
+      response.writeHead(404).end();
+      return;
+    }
+    try {
+      await pool.query("SELECT 1");
+      response.writeHead(200).end("ok");
+    } catch {
+      response.writeHead(503).end("unavailable");
+    }
+  });
+  await new Promise<void>((resolve, reject) => {
+    health.once("error", reject);
+    health.listen(3001, "127.0.0.1", resolve);
+  });
+
   console.log("Feylore worker started");
 
   const shutdown = async () => {
+    await new Promise<void>((resolve, reject) =>
+      health.close((error) => (error ? reject(error) : resolve())),
+    );
     stopPodcastSweep();
     stopClubScheduleSweep();
     stopChallengeSweep();

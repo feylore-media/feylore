@@ -68,7 +68,6 @@ export function buildAdminSearchIndex(
   const entries: AdminSearchEntry[] = [];
 
   for (const group of ADMIN_NAV_GROUPS) {
-    const groupLabel = labelResolver("title", group.labelKey);
     for (const item of group.items) {
       entries.push({
         id: item.id,

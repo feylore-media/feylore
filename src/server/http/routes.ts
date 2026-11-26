@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import path from "node:path";
 import { z } from "zod";
-import { eq, inArray, and, asc, desc } from "drizzle-orm";
+import { eq, inArray, and, asc } from "drizzle-orm";
 import type { AppContext } from "../context.js";
 import { requireAuth } from "./auth-hooks.js";
 import { registerAuthRoutes } from "./auth-routes.js";
@@ -185,19 +185,6 @@ export async function registerRoutes(app: FastifyInstance, ctx: AppContext) {
     const book = await ctx.books.getBookByRef(slug);
     await ctx.books.ensureUserAccess(userId, book.id);
     return book;
-  }
-
-  async function personProviderPayload(personId: string, sourceKey: string) {
-    const record = await ctx.db.query.metadataRecords.findFirst({
-      where: and(
-        eq(schema.metadataRecords.subjectType, "person"),
-        eq(schema.metadataRecords.subjectId, personId),
-        eq(schema.metadataRecords.providerKey, sourceKey),
-      ),
-      orderBy: desc(schema.metadataRecords.fetchedAt),
-    });
-    if (!record) throw new ValidationError("Provider evidence is unavailable");
-    return record.payload;
   }
 
   async function audiobookFromSlug(userId: string, slug: string) {

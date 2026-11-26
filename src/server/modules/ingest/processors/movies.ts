@@ -110,7 +110,7 @@ export class MoviesIngestProcessor implements IngestDomainProcessor {
   async identify(ctx: IngestContext): Promise<IdentificationResult> {
     const format = inferFormatFromPath(ctx.originalFilename);
     const parsed = parseMovieFilename(ctx.originalFilename);
-    let title = parsed.title || titleFromPath(ctx.originalFilename);
+    const title = parsed.title || titleFromPath(ctx.originalFilename);
 
     ctx.metadata = {
       ...ctx.metadata,

@@ -35,7 +35,6 @@ describe("Shelves API", () => {
   let otherCookie = "";
   let editorCookie = "";
   let adminCookie = "";
-  let ownerId = "";
   let otherId = "";
   let editorId = "";
   let shelfId = "";
@@ -102,7 +101,6 @@ describe("Shelves API", () => {
       "shelfowner",
       ROLE_NAMES.MEMBER,
     );
-    ownerId = owner.userId;
     ownerCookie = owner.cookie;
 
     const other = await setupUser(

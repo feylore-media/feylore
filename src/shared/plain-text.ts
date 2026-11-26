@@ -10,7 +10,7 @@ const ENTITY_MAP: Record<string, string> = {
 /** Strip HTML and unsafe URL schemes from RSS or user-facing text. */
 export function plainTextFromHtml(value: string | undefined | null): string | undefined {
   if (value == null) return undefined;
-  let text = value
+  const text = value
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")

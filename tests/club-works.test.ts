@@ -52,7 +52,6 @@ describe("Club works API", () => {
   let pool: Awaited<ReturnType<typeof buildApp>>["pool"];
   let db: ReturnType<typeof createDb>;
   let ownerCookie = "";
-  let memberCookie = "";
   let outsiderCookie = "";
   let clubId = "";
   let bookId = "";
@@ -105,7 +104,7 @@ describe("Club works API", () => {
     }
 
     ownerCookie = await setupUser("club-works-owner@test.local", "worksowner");
-    memberCookie = await setupUser("club-works-member@test.local", "worksmember");
+    await setupUser("club-works-member@test.local", "worksmember");
     outsiderCookie = await setupUser("club-works-out@test.local", "worksout");
 
     bookId = await createBook(app, ownerCookie, "Club Test Book");

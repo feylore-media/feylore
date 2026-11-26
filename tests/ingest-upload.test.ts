@@ -1,8 +1,4 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import { eq } from "drizzle-orm";
-import fs from "node:fs/promises";
-import path from "node:path";
-import * as schema from "../src/server/db/schema.js";
 import { buildMinimalEpub } from "./fixtures/epub/build-minimal-epub.js";
 import {
   createIngestTestContext,

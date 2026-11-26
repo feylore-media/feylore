@@ -67,7 +67,7 @@ const BOOK_FIELD_SPECS: BookCanonicalFieldSpec[] = [
   { id: "cover", kind: "cover", storage: "artwork", sourceMergeable: true, mergePayloadKeys: "cover", primary: false },
 ];
 
-const specById = new Map(BOOK_FIELD_SPECS.map((s) => [s.id, s]));
+const specById = new Map<string, BookCanonicalFieldSpec>(BOOK_FIELD_SPECS.map((s) => [s.id, s]));
 
 /** Display order for the book metadata editor matrix (cover first). */
 export const BOOK_METADATA_EDITOR_FIELD_ORDER: CanonicalFieldId[] = [
@@ -138,7 +138,7 @@ export function getBookCanonicalFieldSpec(
   return specById.get(fieldId);
 }
 
-export function getBookFieldKind(fieldId: CanonicalFieldId): BookMetadataFieldKind {
+export function getBookFieldKind(fieldId: string): BookMetadataFieldKind {
   return specById.get(fieldId)?.kind ?? "text";
 }
 
@@ -189,7 +189,7 @@ export function formatBookCanonicalValue(value: unknown): string | null {
 }
 
 export function parseBookFieldValueForSave(
-  fieldId: CanonicalFieldId,
+  fieldId: string,
   raw: string,
 ): unknown {
   const kind = getBookFieldKind(fieldId);

@@ -2,7 +2,7 @@ import { eq, and } from "drizzle-orm";
 import type { Database } from "../../db/client.js";
 import * as schema from "../../db/schema.js";
 import { generateId } from "../../security/crypto.js";
-import { NotFoundError, ForbiddenError, ValidationError } from "../../../shared/errors.js";
+import { NotFoundError, ValidationError } from "../../../shared/errors.js";
 import type {
   DownloadPreparePayload,
   DownloadPublic,

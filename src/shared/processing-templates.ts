@@ -45,8 +45,11 @@ const FIELD_ALIASES: Record<string, keyof ProcessingTemplateMetadata> = {
   published: "publicationDate",
 };
 
+// Control characters are deliberately rejected in filesystem names.
+/* eslint-disable no-control-regex */
 const INVALID_FILENAME_CHARS = /[<>:"/\\|?*\x00-\x1f]/g;
 const INVALID_PATH_CHARS = /[<>:"\\|?*\x00-\x1f]/g;
+/* eslint-enable no-control-regex */
 
 export function extractTemplateFields(template: string): string[] {
   const fields: string[] = [];
