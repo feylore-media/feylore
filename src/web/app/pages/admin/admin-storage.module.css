@@ -1,0 +1,223 @@
+.notice {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-surface-muted);
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+  line-height: 1.5;
+}
+
+.footnote {
+  margin: var(--space-3) 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  line-height: 1.5;
+}
+
+.sizeControl {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sizeControl input {
+  width: 5rem;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.sizeControl select {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.chunkSizeSection {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.chunkSizeLabel {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.chunkSizeHelp {
+  margin: var(--space-2) 0 var(--space-3);
+  font-size: 0.75rem;
+  color: var(--color-ink-muted);
+  line-height: 1.5;
+  max-width: 36rem;
+}
+
+.chunkSizeNotice {
+  margin: var(--space-2) 0 0;
+  font-size: 0.75rem;
+  color: var(--color-ink-muted);
+  font-style: italic;
+}
+
+.colMediaType {
+  width: 8rem;
+}
+
+.colMaxSize {
+  width: 11rem;
+}
+
+.colLocation {
+  width: 14rem;
+}
+
+.colProvider {
+  width: 9rem;
+}
+
+.colUsed,
+.colCapacity,
+.colUsage {
+  width: 7rem;
+  text-align: right;
+}
+
+.colFile {
+  width: auto;
+}
+
+.colType {
+  width: 7rem;
+}
+
+.colSize {
+  width: 6rem;
+  text-align: right;
+}
+
+.colLibrary {
+  width: 10rem;
+}
+
+.colStorage {
+  width: 9rem;
+}
+
+.emptyWrap {
+  margin-top: var(--space-4);
+}
+
+.dash {
+  color: var(--color-ink-muted);
+}
+
+.monoCell {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  word-break: break-all;
+}
+
+.colPath {
+  width: 16rem;
+}
+
+.colStatus {
+  width: 10rem;
+}
+
+.colWatch {
+  width: 6rem;
+}
+
+.colActions {
+  width: 6rem;
+}
+
+.editPanel {
+  margin: var(--space-3) 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+}
+
+.editActions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-size: 0.875rem;
+}
+
+.fieldLabel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.select {
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: inherit;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 28rem;
+}
+
+.formTitle {
+  margin: 0 0 var(--space-3);
+  font-size: 0.9375rem;
+}
+
+.sectionActions {
+  margin-top: var(--space-3);
+}
+
+.rowActions {
+  margin-top: var(--space-2);
+}
+
+.ingestSourcesSection {
+  margin-top: var(--space-2);
+}
+
+.externalPlaceholder {
+  padding: var(--space-3) 0;
+}
+
+.errorNotice {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--color-danger, #c44);
+  background: var(--color-surface-muted);
+  font-size: 0.875rem;
+  color: var(--color-ink);
+}

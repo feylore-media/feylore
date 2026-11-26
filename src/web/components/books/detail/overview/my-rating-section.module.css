@@ -1,0 +1,45 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 27rem) minmax(8rem, 1fr);
+  align-items: center;
+  gap: var(--space-5);
+}
+.verdict {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.stars {
+  color: var(--color-accent);
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.ratingNumber {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+}
+.recommendation {
+  margin: var(--space-1) 0;
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+}
+.reviewLink {
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+.reviewLink:hover {
+  text-decoration: underline;
+}
+@media (max-width: 40rem) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .verdict {
+    align-items: center;
+    text-align: center;
+  }
+}

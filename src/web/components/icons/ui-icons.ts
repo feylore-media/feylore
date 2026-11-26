@@ -1,0 +1,28 @@
+import { AddIcon } from "@solar-icons/react/outline/add";
+import { AltArrowLeftIcon } from "@solar-icons/react/outline/alt-arrow-left";
+import { AltArrowRightIcon } from "@solar-icons/react/outline/alt-arrow-right";
+import { CloseIcon } from "@solar-icons/react/outline/close";
+import { HamburgerMenuIcon } from "@solar-icons/react/outline/hamburger-menu";
+import { EyeIcon } from "@solar-icons/react/outline/eye";
+import { UsersGroupRoundedIcon } from "@solar-icons/react/outline/users-group-rounded";
+import { MusicNoteIcon } from "@solar-icons/react/outline/music-note";
+import { SettingsIcon } from "@solar-icons/react/outline/settings";
+import { ShieldMinimalisticIcon } from "@solar-icons/react/outline/shield-minimalistic";
+import { LogoutIcon } from "@solar-icons/react/outline/logout";
+import { MagnifierIcon } from "@solar-icons/react/outline/magnifier";
+import { InfoCircleIcon } from "@solar-icons/react/outline/info-circle";
+
+export const UiAddIcon = AddIcon;
+export const UiBackIcon = AltArrowLeftIcon;
+export const UiForwardIcon = AltArrowRightIcon;
+export const UiCloseIcon = CloseIcon;
+export const UiDragHandleIcon = HamburgerMenuIcon;
+export const UiVisibilitySharedIcon = EyeIcon;
+export const UiVisibilityCollaborativeIcon = UsersGroupRoundedIcon;
+export const UiMusicPlaceholderIcon = MusicNoteIcon;
+export const UiSettingsIcon = SettingsIcon;
+export const UiClubsIcon = UsersGroupRoundedIcon;
+export const UiAdminIcon = ShieldMinimalisticIcon;
+export const UiLogoutIcon = LogoutIcon;
+export const UiSearchIcon = MagnifierIcon;
+export const UiInfoIcon = InfoCircleIcon;

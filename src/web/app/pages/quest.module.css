@@ -1,0 +1,294 @@
+/* Quest map presentation.
+ *
+ * Colors resolve through --quest-* tokens supplied inline from the
+ * registry-backed map style (plus optional presentation overrides).
+ * Quest styles are distinct from global Feylore themes.
+ */
+
+.map {
+  border: 1px solid var(--quest-path, #3a3a48);
+  background: var(--quest-map-background, transparent);
+  padding: 1rem;
+}
+
+.mapSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.mapSummary strong {
+  font-size: 1.1rem;
+}
+
+.mapMeta {
+  opacity: 0.75;
+  font-size: 0.9rem;
+}
+
+.wonBanner {
+  font-weight: 600;
+}
+
+.canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  background: var(--quest-map-background, transparent);
+  border: 1px solid var(--quest-path, #3a3a48);
+  overflow: hidden;
+}
+
+.paths {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.path {
+  stroke: var(--quest-path, #3a3a48);
+  stroke-width: 2;
+}
+
+.path[data-unlocked="true"] {
+  stroke: var(--quest-path-unlocked, #7fb887);
+  stroke-width: 3;
+}
+
+.node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  appearance: none;
+  border: 1px solid var(--quest-path, #3a3a48);
+  background: var(--quest-node, #1c1c24);
+  color: var(--quest-node-text, inherit);
+  min-width: 7rem;
+  max-width: 10rem;
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.node:hover {
+  border-width: 2px;
+}
+
+.node[data-kind="start"] {
+  background: var(--quest-start, #2e4a3a);
+}
+
+.node[data-kind="finish"] {
+  background: var(--quest-finish, #4a2e3a);
+}
+
+.node[data-kind="junction"] {
+  border-radius: 999px;
+  min-width: 5rem;
+}
+
+.node[data-state="locked"] {
+  background: var(--quest-locked, #26262e);
+  opacity: 0.7;
+}
+
+.node[data-state="available"] {
+  background: var(--quest-available, #2e3a4a);
+}
+
+.node[data-state="completed"] {
+  background: var(--quest-completed, #27402c);
+  color: var(--quest-completed-text, inherit);
+}
+
+.node[data-optional="true"] {
+  border-style: dashed;
+  background: var(--quest-optional, #3a3423);
+}
+
+.node[data-optional="true"][data-state="completed"] {
+  background: var(--quest-completed, #27402c);
+}
+
+.node[aria-pressed="true"] {
+  border-width: 2px;
+  outline: 2px solid var(--quest-path-unlocked, #7fb887);
+  outline-offset: 2px;
+}
+
+.nodeLabel {
+  font-size: 0.85rem;
+  line-height: 1.25;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.nodeMeta {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.optionalBadge {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.detail {
+  margin-top: 1rem;
+  border-top: 1px solid var(--quest-path, #3a3a48);
+  padding-top: 1rem;
+}
+
+.detailTitle {
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.detailRule {
+  opacity: 0.8;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.progressTrack {
+  height: 0.5rem;
+  background: var(--quest-path, #3a3a48);
+  margin: 0.5rem 0;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--quest-path-unlocked, #7fb887);
+}
+
+.countedList {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.countedItem {
+  padding: 0.25rem 0;
+  border-top: 1px dotted var(--quest-path, #3a3a48);
+  font-size: 0.9rem;
+}
+
+.countedMeta {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+/* Editor: draggable map canvas. */
+
+.editorCanvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  border: 1px solid var(--quest-path, #3a3a48);
+  background: var(--quest-map-background, transparent);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.editorPaths {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.editorPath {
+  stroke: var(--quest-path, #3a3a48);
+  stroke-width: 2;
+}
+
+.editorNode {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--quest-path, #3a3a48);
+  background: var(--quest-node, #1c1c24);
+  min-width: 6rem;
+  max-width: 9rem;
+  padding: 0.4rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.editorNode:active {
+  cursor: grabbing;
+}
+
+.editorNode[data-kind="start"] {
+  background: var(--quest-start, #2e4a3a);
+}
+
+.editorNode[data-kind="finish"] {
+  background: var(--quest-finish, #4a2e3a);
+}
+
+.editorNode[data-kind="junction"] {
+  border-radius: 999px;
+  min-width: 4.5rem;
+}
+
+.editorNode[data-selected="true"] {
+  outline: 2px solid var(--quest-path-unlocked, #7fb887);
+  outline-offset: 2px;
+}
+
+.editorNode[data-link-source="true"] {
+  outline: 2px dashed var(--quest-path-unlocked, #7fb887);
+  outline-offset: 2px;
+}
+
+.editorNodeLabel {
+  font-size: 0.8rem;
+  line-height: 1.2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.editorNodeKind {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.editorEdgeList {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.editorEdge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  border-top: 1px dotted var(--quest-path, #3a3a48);
+  padding-top: 0.4rem;
+}
+
+.freeToggle {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}

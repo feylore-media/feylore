@@ -1,0 +1,16 @@
+{
+  "title": "Activity",
+  "ingestLink": "Ingest queue",
+  "empty": "No activity yet.",
+  "loadMore": "Load more",
+  "type_book.favorited": "Favorited {{title}}",
+  "type_book.unfavorited": "Removed {{title}} from favorites",
+  "type_book.rated": "Rated {{title}}",
+  "type_book.rating_cleared": "Cleared rating for {{title}}",
+  "type_book.progress_updated": "Updated reading progress for {{title}}",
+  "type_book.reading_started": "Started reading {{title}}",
+  "type_book.reading_finished": "Finished reading {{title}}",
+  "type_download.requested": "Requested a download",
+  "type_download.removed": "Removed a download",
+  "type_default": "{{type}}"
+}

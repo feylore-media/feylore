@@ -1,0 +1,197 @@
+/* Bingo board presentation.
+ *
+ * Colors resolve through --bingo-* tokens supplied inline from the
+ * registry-backed board style (plus optional presentation overrides).
+ * Bingo styles are distinct from global Feylore themes.
+ */
+
+.board {
+  border: 1px solid var(--bingo-frame, #2a2a35);
+  background: var(--bingo-background, transparent);
+  padding: 1rem;
+}
+
+.boardSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.boardSummary strong {
+  font-size: 1.1rem;
+}
+
+.boardMeta {
+  opacity: 0.75;
+  font-size: 0.9rem;
+}
+
+.wonBanner {
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.cell {
+  appearance: none;
+  border: 1px solid var(--bingo-frame, #2a2a35);
+  background: var(--bingo-cell, #1c1c24);
+  color: var(--bingo-cell-text, inherit);
+  aspect-ratio: 1;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.cell:hover {
+  border-width: 2px;
+  padding: calc(0.5rem - 1px);
+}
+
+.cell[data-state="free"] {
+  background: var(--bingo-free, #2e2a1e);
+}
+
+.cell[data-state="completed"] {
+  background: var(--bingo-completed, #27402c);
+  color: var(--bingo-completed-text, inherit);
+}
+
+.cell[data-line="true"] {
+  outline: 2px solid var(--bingo-line, #7fb887);
+  outline-offset: -2px;
+}
+
+.cell[aria-pressed="true"] {
+  border-width: 2px;
+  padding: calc(0.5rem - 1px);
+}
+
+.cellLabel {
+  font-size: 0.85rem;
+  line-height: 1.25;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.cellMeta {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.freeBadge {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+.detail {
+  margin-top: 1rem;
+  border-top: 1px solid var(--bingo-frame, #2a2a35);
+  padding-top: 1rem;
+}
+
+.detailTitle {
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.detailRule {
+  opacity: 0.8;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.progressTrack {
+  height: 0.5rem;
+  background: var(--bingo-frame, #2a2a35);
+  margin: 0.5rem 0;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--bingo-line, #7fb887);
+}
+
+.countedList {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.countedItem {
+  padding: 0.25rem 0;
+  border-top: 1px dotted var(--bingo-frame, #2a2a35);
+  font-size: 0.9rem;
+}
+
+.countedMeta {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+/* Builder: sortable square editor rows. */
+
+.editorList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.editorRow {
+  border: 1px solid var(--bingo-frame, #2a2a35);
+  padding: 0.75rem;
+  background: var(--bingo-cell, #1c1c24);
+}
+
+.editorRowTop {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.dragHandle {
+  cursor: grab;
+  opacity: 0.7;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.editorRowControls {
+  margin-left: auto;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.editorRowControls button {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.freeToggle {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}

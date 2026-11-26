@@ -1,0 +1,125 @@
+import type { MetadataSourceDescriptor } from "../../shared/metadata-contract/index.js";
+import { OPEN_LIBRARY_PROVIDER_FIELD_KEYS } from "./provider-fields.js";
+
+export const openLibraryDescriptor: MetadataSourceDescriptor = {
+  id: "open-library",
+  name: "Open Library",
+  mediaModules: ["books", "comics"],
+  sourceType: "api",
+  sourceCategory: "provider",
+  fields: [
+    "title",
+    "subtitle",
+    "authors",
+    "contributors",
+    "series",
+    "seriesPosition",
+    "isbn10",
+    "isbn13",
+    "asin",
+    "identifiers",
+    "description",
+    "publisher",
+    "publicationDate",
+    "copyrightDate",
+    "physicalFormat",
+    "originalPublicationDate",
+    "edition",
+    "language",
+    "originalLanguage",
+    "publicationCountry",
+    "genres",
+    "pageCount",
+    "ageRange",
+    "contentRating",
+    "cover",
+  ],
+  providerFields: [
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.workId,
+      label: "Work ID",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.editionId,
+      label: "Edition ID",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.series,
+      label: "Series (raw)",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.universe,
+      label: "Universe",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.pagination,
+      label: "Pagination",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.lcClassifications,
+      label: "LC classifications",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.deweyDecimalClass,
+      label: "Dewey decimal",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.otherTitles,
+      label: "Other titles",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.byStatement,
+      label: "By statement",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.subjectPlaces,
+      label: "Subject places",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.firstSentence,
+      label: "First sentence",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.goodreads,
+      label: "Goodreads ID",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.isfdb,
+      label: "ISFDB ID",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.wikidata,
+      label: "Wikidata ID",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.librarything,
+      label: "LibraryThing ID",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.bookbrainz,
+      label: "BookBrainz ID",
+      kind: "text",
+    },
+    {
+      key: OPEN_LIBRARY_PROVIDER_FIELD_KEYS.musicbrainz,
+      label: "MusicBrainz ID",
+      kind: "text",
+    },
+  ],
+  implemented: true,
+};

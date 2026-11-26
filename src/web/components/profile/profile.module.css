@@ -1,0 +1,1194 @@
+/* Profile Experience — personal library card, not a dashboard. */
+
+.profile {
+  --profile-accent: var(--color-accent);
+  /* Use the available canvas: readable prose is constrained inside the
+     container (bio, guestbook) rather than narrowing the whole profile. */
+  max-width: 73.75rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-4) var(--space-8);
+  box-sizing: border-box;
+}
+
+/* Surface treatments tint the page backdrop, never the content itself. */
+.profile[data-surface="paper"] {
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-divider);
+  border-right: 1px solid var(--color-divider);
+  padding-left: var(--space-5);
+  padding-right: var(--space-5);
+}
+
+.profile[data-surface="contrast"] {
+  background: var(--color-surface-muted);
+  border-left: 1px solid var(--color-divider);
+  border-right: 1px solid var(--color-divider);
+  padding-left: var(--space-5);
+  padding-right: var(--space-5);
+}
+
+/* ---- Identity hero: compact banner, overlapping avatar -------------- */
+/* Plain `.profile-hero` / `.profile-identity` hooks are part of the
+   documented custom-CSS API, so layout lives on :global selectors. */
+
+:global(.profile-hero) {
+  border-bottom: 1px solid var(--color-divider);
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+:global(.profile-identity) {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  margin-top: var(--space-4);
+}
+
+.banner,
+.bannerCompact {
+  overflow: hidden;
+  background: var(--color-surface-muted);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.banner {
+  height: 10rem;
+}
+
+.bannerCompact {
+  height: 5rem;
+}
+
+.banner img,
+.bannerCompact img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarOverlap {
+  display: block;
+  margin-top: -2rem;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.avatarOverlap :global(img),
+.avatarOverlap :global(span) {
+  border: 2px solid var(--color-paper);
+}
+
+.identityBody {
+  min-width: 0;
+  flex: 1;
+}
+
+.identityText {
+  min-width: 0;
+}
+
+.identityTopRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.profileName {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  margin: 0;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.profileHandle {
+  color: var(--color-ink-muted);
+  margin: var(--space-1) 0;
+  font-size: 0.9375rem;
+  overflow-wrap: anywhere;
+}
+
+.pronouns {
+  color: var(--color-ink-muted);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.profileBio {
+  font-family: var(--font-reading);
+  line-height: 1.7;
+  max-width: 38rem;
+  margin: var(--space-2) 0 0;
+}
+
+.identityMetaRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+/* Social links: recognizable marks + accessible names. */
+.linkChips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-self: flex-end;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.linkChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  border: 1px solid var(--color-divider);
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-2);
+}
+
+.linkChip:hover,
+.linkChip:focus-visible {
+  color: var(--profile-accent);
+  border-color: var(--profile-accent);
+}
+
+.followButton {
+  flex-shrink: 0;
+  border: 1px solid var(--profile-accent);
+  background: transparent;
+  color: var(--profile-accent);
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.followButton[aria-pressed="true"] {
+  background: var(--profile-accent);
+  color: var(--color-paper);
+}
+
+.followButton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.followButton:hover:not(:disabled),
+.followButton:focus-visible:not(:disabled) {
+  text-decoration: underline;
+}
+
+.editLink {
+  flex-shrink: 0;
+  color: var(--profile-accent);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.ownerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.editLink:hover,
+.editLink:focus-visible {
+  text-decoration: underline;
+}
+
+.followCounts {
+  margin: var(--space-3) 0 0;
+  color: var(--color-ink-muted);
+  font-size: 0.9375rem;
+}
+
+.profileTabs {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  margin-top: var(--space-7);
+  border-bottom: 1px solid var(--color-divider);
+  padding-bottom: var(--space-2);
+}
+
+.profileTab {
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+}
+
+.profileTab:hover,
+.profileTab:focus-visible,
+.profileTab[aria-current="page"] {
+  color: var(--profile-accent);
+  text-decoration: underline;
+}
+
+.profileCountButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.goalProfileList {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.goalProfileCard {
+  display: block;
+  padding: var(--space-3);
+  border: 1px solid var(--color-divider);
+  color: inherit;
+  text-decoration: none;
+}
+
+.goalProfileCard:hover,
+.goalProfileCard:focus-visible {
+  border-color: var(--profile-accent);
+}
+
+.goalProfileHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.goalProfileCard p {
+  margin: var(--space-1) 0 var(--space-2);
+  color: var(--color-ink-muted);
+  font-size: 0.875rem;
+}
+
+.goalProfileTrack {
+  height: 0.4rem;
+  overflow: hidden;
+  background: var(--color-surface-muted);
+}
+
+.goalProfileTrack span {
+  display: block;
+  height: 100%;
+  background: var(--profile-accent);
+}
+
+.profileCountButton:hover,
+.profileCountButton:focus-visible {
+  color: var(--profile-accent);
+  text-decoration: underline;
+}
+
+/* ---- Artifact canvas ------------------------------------------------- */
+
+.profileArtifacts {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-5) var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.profileArtifact {
+  min-width: 0;
+  overflow-wrap: break-word;
+  border-top: 1px solid var(--color-divider);
+  padding-top: var(--space-3);
+}
+
+/* Card treatments apply only to the artifact's relationship with the
+   page — never rounded dashboard widgets by default. */
+.profile[data-cards="outlined"] .profileArtifact {
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md, 0.5rem);
+  padding: var(--space-3) var(--space-4);
+}
+
+.profile[data-cards="soft"] .profileArtifact {
+  background: var(--color-surface);
+  border-top: none;
+  border-radius: var(--radius-md, 0.5rem);
+  padding: var(--space-4);
+}
+
+/* Sizes are real minimum widths via 12-column spans: desktop fits three
+   small artifacts or two medium artifacts per row — never microscopic
+   columns. */
+.profileArtifact--small {
+  grid-column: span 4;
+}
+
+.profileArtifact--medium {
+  grid-column: span 6;
+}
+
+.profileArtifact--wide {
+  grid-column: span 12;
+}
+
+.profileArtifact--obsessions {
+  grid-column: span 12;
+}
+
+.profileArtifactTitle {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-3);
+  max-width: 100%;
+}
+
+.artifactMeta {
+  color: var(--color-ink-muted);
+  font-size: 0.875rem;
+}
+
+/* ---- Presence (compact identity-header line, not a card) --------------- */
+
+.presenceLine {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-ink-muted);
+  max-width: 38rem;
+}
+
+.presenceIcon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-ink-muted);
+}
+
+.presenceCover {
+  width: 1.75rem;
+  height: 2.625rem;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--color-surface-muted);
+}
+
+.presenceBody {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.presenceKind {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.presenceTitle {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.presenceTitle:hover,
+a.presenceTitle:focus-visible {
+  text-decoration: underline;
+}
+
+.presenceDetail {
+  color: var(--color-ink-muted);
+}
+
+.presenceWhen {
+  color: var(--color-ink-muted);
+}
+
+.mediaLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.mediaLink:hover,
+.mediaLink:focus-visible {
+  outline: 2px solid var(--profile-accent);
+  outline-offset: 2px;
+}
+
+/* ---- Shared artwork -------------------------------------------------- */
+
+.artCover,
+.artPortrait {
+  display: block;
+  overflow: hidden;
+  background: var(--color-surface-muted);
+}
+
+.artCover {
+  aspect-ratio: 2 / 3;
+  width: 100%;
+}
+
+.artPortrait {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  border-radius: var(--radius-md, 0.5rem);
+}
+
+.artCover img,
+.artPortrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.artPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 4rem;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-ink-muted);
+  background: var(--color-surface-muted);
+}
+
+/* ---- Obsessions: large art + caption --------------------------------- */
+
+.obsessionGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-4);
+}
+
+.obsessionCard {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.obsessionCard .artCover,
+.obsessionCard .artPortrait {
+  border: 1px solid var(--color-border);
+}
+
+.obsessionTitle {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: var(--space-2) 0 0;
+}
+
+.obsessionTitle a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.obsessionTitle a:hover,
+.obsessionTitle a:focus-visible {
+  color: var(--profile-accent);
+  text-decoration: underline;
+}
+
+.obsessionNote {
+  font-family: var(--font-reading);
+  font-style: italic;
+  color: var(--color-ink-muted);
+  margin: var(--space-1) 0 0;
+  line-height: 1.5;
+}
+
+.obsessionNote q {
+  quotes: "\201C" "\201D";
+}
+
+/* ---- Cover rows: favorites, shelf preview ---------------------------- */
+
+.coverRow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* Fluid cells: five covers breathe in a wide artifact and stay usable
+     in a small one, instead of fixed counts squeezing microscopically. */
+  grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+  gap: var(--space-3);
+}
+
+.coverCell {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.coverCaption {
+  font-size: 0.8125rem;
+  margin: var(--space-1) 0 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.coverCaption a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.coverCaption a:hover,
+.coverCaption a:focus-visible {
+  color: var(--profile-accent);
+  text-decoration: underline;
+}
+
+.shelfMore {
+  margin: var(--space-2) 0 0;
+  font-size: 0.875rem;
+}
+
+.shelfMore a {
+  color: var(--profile-accent);
+  text-decoration: none;
+}
+
+.shelfMore a:hover,
+.shelfMore a:focus-visible {
+  text-decoration: underline;
+}
+
+/* ---- Quote: typographic and spacious ---------------------------------- */
+
+.quote {
+  font-family: var(--font-reading);
+  font-size: 1.25rem;
+  line-height: 1.7;
+  margin: 0;
+  padding: var(--space-2) 0;
+  max-width: 32rem;
+}
+
+.quote p {
+  margin: 0;
+}
+
+.quote cite {
+  display: block;
+  margin-top: var(--space-3);
+  font-size: 0.9375rem;
+  font-style: normal;
+  color: var(--color-ink-muted);
+}
+
+/* ---- Currently reading: a little stack -------------------------------- */
+
+.readingStack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.readingRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.readingCover {
+  width: 3rem;
+  flex-shrink: 0;
+}
+
+.readingCover .artPlaceholder {
+  font-size: 1.25rem;
+  min-height: 4.5rem;
+}
+
+.readingBody {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.readingTitle a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.readingTitle a:hover,
+.readingTitle a:focus-visible {
+  color: var(--profile-accent);
+  text-decoration: underline;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.progressTrack {
+  display: block;
+  flex: 1;
+  height: 0.375rem;
+  background: var(--color-surface-muted);
+  border-radius: 999px;
+  overflow: hidden;
+  max-width: 14rem;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  background: var(--profile-accent);
+  border-radius: 999px;
+}
+
+.progressLabel {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Five-star -------------------------------------------------------- */
+
+.fiveStarGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: var(--space-3);
+}
+
+.fiveStarCell {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.stars {
+  color: var(--profile-accent);
+  letter-spacing: 0.1em;
+  font-size: 0.8125rem;
+  margin: var(--space-1) 0 0;
+}
+
+/* ---- Favorite person --------------------------------------------------- */
+
+.personCard {
+  max-width: 12rem;
+}
+
+.personCard .artPortrait {
+  border: 1px solid var(--color-border);
+}
+
+.personName {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  margin: var(--space-2) 0 0;
+}
+
+.personName a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.personName a:hover,
+.personName a:focus-visible {
+  color: var(--profile-accent);
+  text-decoration: underline;
+}
+
+/* ---- Club badge --------------------------------------------------------- */
+
+.clubGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.clubBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.clubMedallion {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: var(--color-surface-muted);
+  color: var(--profile-accent);
+  border: 1px solid var(--color-divider);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.clubName {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.clubName:hover,
+.clubName:focus-visible {
+  color: var(--profile-accent);
+  text-decoration: underline;
+}
+
+/* ---- Recent activity: subordinate textual statements ------------------- */
+
+.activityList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.activityStatement {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  border-bottom: 1px dotted var(--color-divider);
+  padding-bottom: var(--space-2);
+}
+
+.activityStatement:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.activitySubject {
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+}
+
+a.activitySubject:hover,
+a.activitySubject:focus-visible {
+  color: var(--profile-accent);
+  text-decoration: underline;
+}
+
+/* ---- Stats: numbers, not a dashboard ------------------------------------ */
+
+.statsRow {
+  display: flex;
+  gap: var(--space-5);
+  margin: 0;
+}
+
+.stat dd {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.stat dt {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  margin-top: var(--space-1);
+}
+
+/* ---- Empty states ------------------------------------------------------- */
+
+.emptyState {
+  margin-top: var(--space-6);
+  border-top: 1px solid var(--color-divider);
+  padding-top: var(--space-5);
+  max-width: 32rem;
+}
+
+.emptyState p {
+  margin: 0 0 var(--space-2);
+  line-height: 1.6;
+}
+
+.errorTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+/* ---- Loading skeletons -------------------------------------------------- */
+
+.skeletonStatus {
+  color: var(--color-ink-muted);
+}
+
+.skeletonBanner,
+.skeletonAvatar,
+.skeletonLines span,
+.skeletonGrid span {
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-md, 0.5rem);
+}
+
+.skeletonBanner {
+  height: 9rem;
+}
+
+.skeletonRow {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  align-items: center;
+}
+
+.skeletonAvatar {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeletonLines {
+  display: grid;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.skeletonLines span {
+  height: 1rem;
+}
+
+.skeletonLines span:last-child {
+  width: 60%;
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.skeletonGrid span {
+  aspect-ratio: 2 / 3;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skeletonBanner,
+  .skeletonAvatar,
+  .skeletonLines span,
+  .skeletonGrid span {
+    animation: profilePulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes profilePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* ---- Follow dialog -------------------------------------------------------- */
+
+.dialogBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgb(0 0 0 / 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+}
+
+.dialog {
+  background: var(--color-paper);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md, 0.5rem);
+  padding: var(--space-4);
+  width: 24rem;
+  max-width: 100%;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.dialogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.dialogHeader h2 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+.dialogClose {
+  background: none;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md, 0.5rem);
+  padding: var(--space-1) var(--space-2);
+  cursor: pointer;
+  color: inherit;
+}
+
+.dialogClose:hover,
+.dialogClose:focus-visible {
+  border-color: var(--profile-accent);
+  color: var(--profile-accent);
+}
+
+.dialogList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* ---- Guestbook footer ------------------------------------------------------ */
+
+.guestbook {
+  margin-top: var(--space-8);
+  border-top: 1px solid var(--color-divider);
+  padding-top: var(--space-4);
+}
+
+/* The section spans the profile; conversation content keeps a comfortable
+   reading measure instead of stretching a textarea across 1100px. */
+.guestbookList,
+.guestbookForm,
+.guestbook > .artifactMeta,
+.guestbook > p {
+  max-width: 44rem;
+}
+
+.guestbookList {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.guestbookEntry {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.guestbookBody {
+  min-width: 0;
+  flex: 1;
+}
+
+.guestbookAuthor {
+  margin: 0;
+}
+
+.guestbookText {
+  margin: var(--space-1) 0;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+.guestbookForm {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.guestbookForm label {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.guestbookForm textarea {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md, 0.5rem);
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  resize: vertical;
+}
+
+.guestbookForm textarea:focus-visible {
+  outline: 2px solid var(--profile-accent);
+  outline-offset: 1px;
+  border-color: var(--profile-accent);
+}
+
+.guestbookForm button {
+  justify-self: start;
+  background: var(--profile-accent);
+  color: var(--color-paper);
+  border: none;
+  border-radius: 999px;
+  padding: var(--space-1) var(--space-4);
+  cursor: pointer;
+  font-size: 0.9375rem;
+}
+
+.guestbookForm button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.inlineButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: inherit;
+  text-decoration: underline;
+}
+
+.inlineButton:hover,
+.inlineButton:focus-visible {
+  color: var(--profile-accent);
+}
+
+/* ---- Recent achievements (profile surface; calm list, no cards). ----- */
+
+.achievements {
+  margin-top: var(--space-8);
+}
+
+.achievementList {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+  max-width: 44rem;
+}
+
+.achievementRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.achievementBody {
+  min-width: 0;
+  flex: 1;
+}
+
+.achievementName {
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+.achievementMeta {
+  margin: var(--space-1) 0 0;
+}
+
+/* ---- Breakpoints: desktop 2–3 substantial artifacts per row, -------- */
+/* ---- tablet 2 where possible, mobile intentionally linear. ---------- */
+
+@media (max-width: 64rem) {
+  .profileArtifact--small {
+    grid-column: span 6;
+  }
+
+  .profileArtifact--medium {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 48rem) {
+  .linkChips {
+    justify-content: flex-start;
+    align-self: flex-start;
+  }
+
+  .profileArtifacts {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .profileArtifact--small,
+  .profileArtifact--medium,
+  .profileArtifact--wide,
+  .profileArtifact--obsessions {
+    grid-column: 1 / -1;
+  }
+
+  .profile[data-surface="paper"],
+  .profile[data-surface="contrast"] {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+  }
+
+  .banner {
+    height: 6.5rem;
+  }
+
+  .avatarOverlap {
+    margin-top: -1.5rem;
+  }
+
+  .identityTopRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .obsessionGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .obsessionCard {
+    max-width: 22rem;
+  }
+
+  .coverRow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fiveStarGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profile[data-cards="outlined"] .profileArtifact,
+  .profile[data-cards="soft"] .profileArtifact {
+    padding: var(--space-3);
+  }
+
+  :global(.profile-identity) {
+    flex-direction: column;
+  }
+}

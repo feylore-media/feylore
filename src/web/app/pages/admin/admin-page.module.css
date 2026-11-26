@@ -1,0 +1,45 @@
+.page {
+  min-width: 0;
+}
+
+.header {
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+  color: var(--color-ink);
+}
+
+.description {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  max-width: 42rem;
+}
+
+.placeholder {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  border: 1px dashed var(--color-divider);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+}
+
+.placeholderLabel {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.placeholderDetail {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: 0.875rem;
+}

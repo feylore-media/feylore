@@ -1,0 +1,99 @@
+.dropZone {
+  border-radius: var(--radius-sm);
+  transition: background 0.15s, outline 0.15s;
+}
+
+.dropZoneActive {
+  background: var(--color-surface-muted);
+  outline: 2px dashed var(--color-accent);
+  outline-offset: 2px;
+}
+
+.dropZoneInvalid {
+  outline: 2px dashed var(--color-danger);
+}
+
+.dropPanel {
+  position: fixed;
+  bottom: calc(var(--mobile-nav-height, 0px) + var(--space-4));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  max-width: min(90vw, 40rem);
+}
+
+.dropPanelLabel {
+  width: 100%;
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-1);
+}
+
+.dropTarget {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: default;
+  font: inherit;
+  color: inherit;
+}
+
+.dropTargetActive {
+  border-color: var(--color-accent);
+  background: var(--color-surface-muted);
+}
+
+.draggable {
+  touch-action: none;
+}
+
+.dragHandle {
+  cursor: grab;
+  font-size: 0.75rem;
+  color: var(--color-ink-muted);
+  padding: var(--space-1);
+  border: none;
+  background: none;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.shelfItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.shelfItemActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.sortableDragging {
+  opacity: 0.5;
+}
+
+.visibilityIcon {
+  margin-left: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  vertical-align: middle;
+}
+
+.visibilityIconCompact {
+  margin-left: var(--space-1);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}

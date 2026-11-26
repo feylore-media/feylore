@@ -1,0 +1,72 @@
+/*
+ * Semantic token contract — non-color defaults and layout.
+ * Color role values live in themes/feylore.css (default Feylore theme).
+ *
+ * V1 color vocabulary (~15 roles): paper, surface, surface-muted, surface-raised,
+ * text, text-muted, border, divider, accent, accent-muted, accent-subtle, danger.
+ */
+
+:root {
+  --font-display: "Libre Baskerville", Georgia, serif;
+  --font-ui: "Source Sans 3", system-ui, sans-serif;
+  --font-reading: "Literata", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --shadow-md: 0 2px 8px rgb(20 19 24 / 12%);
+
+  --sidebar-size: clamp(12rem, 15vw, 14rem);
+  --header-height: 56px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+
+  --cover-radius: var(--radius-sm);
+  --section-gap: var(--space-8);
+  --page-block: var(--space-6);
+  --page-inline: clamp(var(--space-4), 2vw, var(--space-8));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-ui);
+  background: var(--color-paper);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0 0 var(--space-4);
+}
+
+a {
+  color: var(--color-accent);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}

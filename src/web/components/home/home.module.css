@@ -1,0 +1,141 @@
+.homePage {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 100%;
+}
+
+.shelfRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--section-gap);
+  border-top: 1px solid var(--color-divider);
+}
+
+.shelfRow:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.shelfRowHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.shelfRowTitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.shelfRowSubtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+}
+
+.shelfRowSeeAll {
+  font-size: var(--text-sm);
+  text-decoration: none;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.shelfRowSeeAll:hover {
+  text-decoration: underline;
+}
+
+.shelfRowTrack {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--space-2);
+}
+
+.shelfRowEmpty {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--text-sm);
+}
+
+.shelvesPreviewRow {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+}
+
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.shortcutLink {
+  text-decoration: none;
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+}
+
+.shortcutLink:hover {
+  text-decoration: underline;
+}
+
+.activityPreview {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activityItem {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-divider);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.activityItem a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.activityItem a:hover {
+  text-decoration: underline;
+}
+
+.welcome {
+  padding-top: var(--space-4);
+}
+
+.welcomeTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-3);
+}
+
+.welcomeBody {
+  font-family: var(--font-reading);
+  font-size: 1.125rem;
+  color: var(--color-ink-muted);
+  line-height: 1.7;
+  margin: 0 0 var(--space-4);
+}
+
+.welcomeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.loadingSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+}

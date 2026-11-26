@@ -1,0 +1,765 @@
+# People
+
+## Goal
+
+Create a shared, cross-media People system for Feylore.
+
+A person exists once in the system and can be connected to media through different roles:
+
+* Books → Author, Contributor, Illustrator, etc.
+* Audiobooks → Narrator
+* Podcasts → Cast
+* Movies → Cast, Director, Writer, etc.
+* TV → Cast, Director, Writer, etc.
+* TTRPG → GM, Cast, Creator, etc.
+
+People are not a top-level sidebar module. The global People index/profile exists as shared infrastructure and can be reached through contextual navigation, global search, and cross-media references.
+
+The same Person must never be duplicated simply because they appear in multiple media types.
+
+## 1. Data Model
+
+Introduce a canonical `Person` entity.
+
+Suggested core fields:
+
+* `id`
+* `name`
+* `sortName`
+* `bio`
+* `photo`
+* `pronouns`
+* `personalUrl`
+* external/provider identifiers
+* timestamps
+
+Keep the Person record relatively lightweight. Media-specific information belongs to the relationship/credit rather than the Person itself.
+
+Create a generalized person-credit/relationship model.
+
+Conceptually:
+
+`Person ← PersonCredit → Work/Media`
+
+A credit contains:
+
+* person
+* media/work
+* role
+* role metadata where applicable
+* provider/source
+* provenance
+* ordering/priority where relevant
+
+Do not make `author`, `narrator`, and `cast` separate people tables.
+
+## 2. Identity Resolution
+
+Provider imports must resolve people to existing canonical People where possible.
+
+Support:
+
+* provider person identifiers
+* normalized names
+* aliases
+* manual merging
+* manual correction of incorrect matches
+
+A person appearing as both:
+
+* Matt Mercer in a book
+* Matthew Mercer in an audiobook
+* Matthew Christopher Mercer in a movie
+
+should ultimately resolve to one Person.
+
+Do not attempt aggressive fuzzy matching without confidence/provenance. It is better to leave a possible duplicate for later resolution than silently merge two people.
+
+## 3. Lightweight Import
+
+Person creation should not block normal media ingestion on complete person enrichment.
+
+When a movie is imported with 30 cast members:
+
+1. Create/resolve the Person records.
+2. Create their movie credits.
+3. Complete the movie import.
+4. Enrich Person metadata independently where appropriate.
+
+This prevents a large movie cast from turning one media import into dozens of mandatory provider requests.
+
+Person photos, biographies, social links, etc. can be populated or refreshed asynchronously.
+
+## 4. Global People Index
+
+Create a global People landing page, but do not add People to the primary sidebar initially.
+
+Route concept:
+
+`/people`
+
+The page is a scalable grid.
+
+Controls:
+
+`[ All Media ▾ ] [ A–Z ▾ ]`
+
+Media filter options should correspond to Feylore's supported media relationships.
+
+Sorting initially:
+
+* A–Z
+* Z–A
+
+Do not add a search box. Global search should support a `person:` qualifier instead.
+
+Example:
+
+`person:brandon sanderson`
+
+The People index should use server-side pagination from the beginning.
+
+Suggested initial page size: approximately 36–48 people, depending on the final card dimensions.
+
+Never load the entire People table into the client.
+
+## 5. People Grid
+
+Use a compact editorial card/grid presentation rather than a dashboard or alphabetical directory.
+
+Each card should contain:
+
+* person photo
+* name
+* contextual/generic role labels
+* optional next known work
+
+Example:
+
+`Matthew Mercer`
+
+`Actor · Narrator · GM`
+
+`[cover] Upcoming work`
+`October 2026`
+
+The next-work area is optional.
+
+If Feylore knows of an upcoming work relevant to the person, show it. If there is no useful upcoming work, omit the area rather than displaying an empty placeholder.
+
+The landing page should not depend on a “Featured People” algorithm.
+
+## 6. Media Filtering
+
+`All Media` shows anyone represented in the library.
+
+Selecting a media type filters to People who have a relationship with that media.
+
+For example:
+
+`Books`
+
+shows people with book-related credits.
+
+`Audiobooks`
+
+shows people with audiobook-related credits.
+
+`Movies`
+
+shows people with movie-related credits.
+
+The filter should operate against actual relationships, not a person's occupation or primary identity.
+
+## 7. Compact Alphabet Navigation
+
+Do not render the entire A–Z index as sections.
+
+Instead, provide a compact alphabet navigation element, preferably near the grid controls or at the bottom:
+
+`A B C D E F G H I J K L M ... Z`
+
+It should navigate/filter the paginated dataset appropriately.
+
+Do not make alphabetical grouping the primary visual structure.
+
+## 8. Global Person Profile
+
+Create:
+
+`/people/:slug`
+
+This is the canonical cross-media Person profile.
+
+Example:
+
+`PEOPLE / BRANDON SANDERSON`
+
+Header:
+
+* photo
+* name
+* pronouns where known
+* generic primary roles
+* personal website
+* social links
+
+The header should remain compact rather than becoming a large hero/dashboard.
+
+Then:
+
+### Bio
+
+A concise biography where available.
+
+### Upcoming
+
+A small cross-media upcoming section.
+
+Potential entries:
+
+* upcoming book
+* upcoming audiobook
+* upcoming film/TV work
+* known event
+* other meaningful upcoming activity
+
+Only show information Feylore can support with reasonable confidence.
+
+### Media Sections
+
+Display media represented by this person:
+
+`BOOKS (20) | AUDIOBOOKS (34) | PODCASTS (12) | FILMS (2)`
+
+Only show media categories that actually have credits.
+
+The profile then defaults to the most useful/appropriate media section, with the user able to switch between them.
+
+## 9. Contextual Person Views
+
+The global profile is not intended to replace module-specific person pages.
+
+Books should retain:
+
+`Books / Authors / Brandon Sanderson`
+
+Audiobooks:
+
+`Audiobooks / Narrators / Matthew Mercer`
+
+Podcasts:
+
+`Podcasts / Cast / Matthew Mercer`
+
+Movies:
+
+`Movies / Cast / Matthew Mercer`
+
+These views use the same underlying Person but provide a specialized presentation.
+
+This is particularly important for Books.
+
+The Books Author view can contain the previously designed author experience:
+
+* upcoming releases
+* recent releases
+* compact release/activity information
+* author photos
+* series
+* books
+* relevant author-specific metadata
+
+The Audiobook Narrator view can instead emphasize:
+
+* upcoming narrations
+* recent narrations
+* narrated works
+* chapter/recording-related information where appropriate
+
+The Person entity is shared; the presentation is not.
+
+## 10. Breadcrumbs and Navigation
+
+Use contextual breadcrumbs.
+
+Example:
+
+`Books / Authors / Brandon Sanderson`
+
+rather than forcing every route through:
+
+`People / Brandon Sanderson`
+
+The global Person profile remains available as the broader identity view.
+
+Where appropriate, the person name or a secondary action can link to the global profile.
+
+This allows users to move from a specialized media context to the broader cross-media identity without losing their current context.
+
+## 11. Role Display
+
+Do not require one universal occupation field to describe every Person.
+
+A Person can have many roles.
+
+For the global profile/card, derive a concise set of prominent roles from their credits, with the possibility of a manually preferred identity later.
+
+Examples:
+
+`Author · Creator`
+
+`Actor · Voice Actor · GM`
+
+`Author · Narrator`
+
+For contextual views, use the actual media role:
+
+Books → `Author`
+
+Audiobooks → `Narrator`
+
+Podcasts → `Cast`
+
+Movies → `Actor`
+
+The global role calculation should be deterministic and explainable rather than an opaque popularity algorithm.
+
+## 12. Provider Metadata
+
+Treat Person metadata similarly to the existing Feylore metadata architecture.
+
+Track:
+
+* provider
+* provider identifier
+* retrieved data
+* provenance
+* confidence/identity matching where applicable
+* update timestamp
+
+Do not flatten provider-specific person data into an untraceable set of fields.
+
+The system should be able to say where a photo, biography, identifier, or social link came from.
+
+## 13. Performance
+
+Design for thousands or tens of thousands of People.
+
+Required from v1:
+
+* server-side pagination
+* database indexes for name/sort name
+* efficient media relationship filtering
+* efficient alphabetical sorting
+* lightweight grid API responses
+* lazy image loading
+* no full People dataset in Angular
+* no N+1 relationship queries
+* appropriate eager/projection queries for card data
+
+The People grid endpoint should return only what the card requires.
+
+Person profile endpoints can load richer information separately.
+
+## 14. API Shape
+
+Keep the API conceptually separate from media-specific presentation.
+
+Examples:
+
+`GET /api/people`
+
+Parameters:
+
+* `page`
+* `size`
+* `media`
+* `sort`
+* optionally `letter`
+
+`GET /api/people/:slug`
+
+Returns canonical Person information and summarized media relationships.
+
+Media-specific endpoints remain owned by their modules where appropriate.
+
+For example:
+
+`GET /api/books/authors/:slug`
+
+can provide the specialized Author experience without creating a second Person entity.
+
+## 15. Frontend Structure
+
+Create shared People components/data services for:
+
+* PersonCard
+* PersonGrid
+* PersonHeader
+* PersonPhoto
+* PersonRoleList
+* PersonSocialLinks
+* PersonMediaSummary
+
+Media modules should compose these rather than independently implementing people.
+
+The Books Author page can extend/combine shared components with book-specific components rather than being forced into the global Person layout.
+
+## 16. Search
+
+Extend global search with a `person:` qualifier.
+
+Examples:
+
+`person:matt mercer`
+
+`person:brandon sanderson`
+
+`person:"brennan lee mulligan"`
+
+Search results should identify the result as a Person and navigate to the canonical Person profile or, where appropriate, the contextual media result.
+
+Do not add a dedicated search field to `/people`.
+
+## 17. Initial Scope
+
+### V1
+
+* Canonical Person entity
+* Person credits/relationships
+* Provider identifiers/provenance
+* Identity resolution during imports
+* Global `/people` grid
+* Server-side pagination
+* Media filtering
+* A–Z/Z–A sorting
+* Compact alphabet navigation
+* Person photos
+* Person profile
+* Social/personal links
+* Bio
+* Cross-media credit counts
+* Upcoming work where existing metadata makes it reliable
+* Global `person:` search
+* Books Author integration
+* Audiobook Narrator integration
+* Podcast Cast integration
+* Movie/TV Cast integration as those modules reach their People work
+
+### Later
+
+* Advanced duplicate/merge UI
+* Manual role overrides
+* Events
+* richer social activity
+* person-specific recommendations
+* advanced activity timelines
+* additional provider enrichment
+* person relationships/collaborations
+* richer cross-media statistics
+
+## 18. Acceptance Criteria
+
+A person imported from multiple media types exists as exactly one canonical Person.
+
+A person can have different roles across different media.
+
+A Book Author view and a global Person profile can present the same person differently without duplicating their data.
+
+The People landing page remains performant with thousands of people.
+
+A library import containing hundreds of cast members does not require complete Person enrichment before the media import completes.
+
+The People grid never loads the entire People collection into the browser.
+
+The People page has no dedicated search field.
+
+Global search can resolve `person:` queries.
+
+The global Person profile can show activity across media.
+
+Media-specific Person views retain the ability to have specialized layouts, particularly the richer Books Author experience.
+
+No top-level People sidebar item is required for V1.
+
+# People — Core Data and Identity Rules
+
+## Fundamental Rule
+
+Feylore has **one Person entity per real-world person**.
+
+This is a strict identity rule, not merely a preference for deduplication.
+
+If Matthew Mercer appears as:
+
+* an author on a book
+* a narrator on an audiobook
+* cast on a podcast
+* an actor in a movie
+* a GM in TTRPG content
+
+all of those relationships point to the **same Person**.
+
+They must never result in separate:
+
+* Author
+* Narrator
+* Cast Member
+* Actor
+* GM
+
+person records.
+
+Those are roles, not identities.
+
+Conceptually:
+
+`Person → Credits/Relationships → Media`
+
+not:
+
+`BookAuthor → AudiobookNarrator → PodcastCastMember`
+
+## Identity Resolution
+
+Identity resolution should happen primarily during ingestion/import.
+
+When a file or media item is imported, Feylore should attempt to resolve its people against existing canonical Person records before creating new ones.
+
+Resolution should use available stable identifiers first:
+
+1. Existing Feylore Person relationship
+2. Provider person identifier
+3. Provider-specific external identifier mappings
+4. Strong metadata matches
+5. Name matching as a lower-confidence fallback
+
+The goal is that importing another work featuring an existing person naturally attaches that work to the existing Person.
+
+Do not create duplicate People simply because:
+
+* names differ slightly
+* a provider uses a different spelling
+* the person has different roles
+* the person appears in another media type
+* the person is discovered by another metadata provider
+
+## File-Level Resolution
+
+Where possible, duplicate identity should be resolved as part of file/media metadata processing rather than after the fact on the People page.
+
+For example, importing a movie whose cast contains:
+
+`Matthew Mercer`
+
+should attempt to resolve that credit to the existing Matthew Mercer Person before the movie's credits are persisted.
+
+Likewise, importing an audiobook containing:
+
+`Matthew Christopher Mercer`
+
+should attempt to resolve to the same canonical Person.
+
+This keeps duplicate creation out of the normal ingestion path instead of relying on users to periodically clean up People.
+
+## Do Not Over-Merge
+
+Automatic identity resolution must be conservative.
+
+A name match alone should not be treated as definitive when there is meaningful ambiguity.
+
+If Feylore cannot confidently determine whether two records represent the same real-world person, it should preserve the uncertainty rather than silently merging two different people.
+
+This is preferable to corrupting the canonical identity graph.
+
+## Future Person Management
+
+V1 does not need to expose a complete identity-management interface, but the data model must support it.
+
+A future Person management experience must allow authorized users to:
+
+* edit Person metadata
+* change the preferred name
+* edit biography
+* edit pronouns
+* edit photo
+* edit personal website
+* manage social links
+* manage external/provider identifiers
+* correct incorrect credits
+* merge duplicate People
+* review merge conflicts
+* potentially split an incorrectly merged Person
+
+### Merge
+
+If two Person records are later determined to represent the same real-world person:
+
+`Person A + Person B → Person A`
+
+or another selected canonical Person.
+
+The merge operation must preserve:
+
+* all valid credits
+* provider identifiers
+* provenance
+* metadata where non-conflicting
+* user relationships/state where applicable
+
+The duplicate Person should cease to exist as an independent Person after the merge.
+
+### Split
+
+The model should also avoid making merging irreversible at the database-design level.
+
+If automation or a previous manual action incorrectly combined two different people, Feylore should eventually be able to split their credits and metadata back into separate canonical People.
+
+## Metadata Enrichment
+
+Person identity and Person metadata are separate concerns.
+
+Once a Person is resolved, Feylore can automatically fetch and enrich metadata from configured providers.
+
+Potential enrichment includes:
+
+* biography
+* photo
+* alternate names
+* social links
+* personal website
+* external identifiers
+* additional metadata
+
+Provider data should retain provenance and follow the broader Feylore metadata architecture.
+
+Automatic fetching should update the existing canonical Person rather than creating a new Person representing the provider's version of that person.
+
+## Credits Are Not People
+
+A credit is a relationship between a Person and a media item.
+
+Examples:
+
+`Brandon Sanderson → Author → Book`
+
+`Michael Kramer → Narrator → Audiobook`
+
+`Matthew Mercer → Cast → Podcast`
+
+`Matthew Mercer → Actor → Movie`
+
+The role belongs to the credit.
+
+The identity belongs to the Person.
+
+This distinction is essential to preventing the Books module, Audiobooks module, Podcasts module, and Movies/TV modules from developing independent person databases.
+
+## Contextual Views
+
+Although there is exactly one Person, Feylore can present that person differently depending on context.
+
+Examples:
+
+`Books / Authors / Matthew Mercer`
+
+`Audiobooks / Narrators / Matthew Mercer`
+
+`Podcasts / Cast / Matthew Mercer`
+
+These are contextual views of the same Person.
+
+They must not create separate entities.
+
+The global profile:
+
+`People / Matthew Mercer`
+
+is the cross-media view of that same canonical Person.
+
+## Long-Term Invariant
+
+The system should be designed around this invariant:
+
+> **One real-world person = one Feylore Person.**
+
+Everything else—media type, role, provider, credit, biography source, photo source, and contextual presentation—hangs off that identity.
+
+# People Editing Surface (Implemented)
+
+A `/people/:slug/edit` surface exists, mirroring the Book metadata editor interaction model.
+
+## Canonical fields
+
+Person fields are shared canonical fields tagged `mediaModules: ["people"]`:
+
+* photo (managed via a dedicated endpoint, never a raw field write)
+* name
+* sortName
+* alternateNames (comma list)
+* bio (textarea)
+* pronouns
+* personalUrl
+* birthDate / deathDate (date text)
+* birthPlace / deathPlace
+
+## Interaction model
+
+The editor shows the current Feylore value plus one column per enabled provider, with three states:
+
+1. stored in Feylore (with provenance badge)
+2. fetched from provider (visible in the provider column)
+3. fetched but not applied (chosen via the adopt action in the matrix)
+
+Fetches are **evidence-only**. Provider records are stored as `metadata_records` for `person` subjects but never auto-merge into the `people` row. Only an explicit adopt or a user edit writes a canonical field.
+
+Persistence rules match the book editor:
+
+* `setPersonField` / `setPersonFieldsFromEdit` on `PersonCanonicalService` (person-specific mirror of `MetadataCanonicalService`, no auto-merge).
+* Every written field is locked via `field_overrides` (subject `person`) and recorded in `metadata_field_provenance` with `edit`/`adopt` origin and source.
+* Deleting a field clears the override and provenance; the column value remains.
+
+## Provider: Wikidata
+
+The first person-enrichment provider is Wikidata (`src/providers/wikidata`), registered in the standard provider registry and auto-enabled when no config is required. It resolves by QID or name, fetches the entity plus referenced QIDs (birth/death place, occupations, nationality) for label resolution, and maps:
+
+* bio (description)
+* birth/death dates (P569/P570, precision-respecting)
+* birth/death places (P19/P20)
+* photo (P18 → Wikimedia Commons `Special:FilePath?width=400`)
+* alternate names (aliases)
+* personalUrl (P856)
+* occupations / nationality labels
+* Wikipedia link (sitelinks)
+* QID as the provider identifier on the person
+
+Fetch jobs are `metadata.person.fetch` (async, observable, recoverable), with an active-job guard so navigations reuse an in-flight fetch.
+
+## Portraits
+
+`POST /api/v1/people/:slug/photos/adopt` downloads a portrait through the SSRF-safe outbound service, validates media type (jpeg/png/webp), stores it in managed storage at `people/<slug>/photo.*`, and points `photoFileId` at it with provenance. A direct `photo` canonical field write is rejected.
+
+## Links, identifiers, merge
+
+Links and provider identifiers are directly user-managed. `/people/:slug/duplicates` returns name/sort-name candidates with credit counts; `POST /people/:slug/merge` performs a directional merge that preserves credits, links, identifiers, metadata records, and provenance while skipping conflicts, then deletes the source row.
+
+The edit page (`/people/:slug/edit`) exposes this editing surface in collapsible sections (`PeopleEditIdentitySections`): Links (add/edit/remove with kind, label, URL) and Provider identifiers (add with provider datalist, remove by provider). All identity mutations persist immediately and are independent of the canonical metadata form's save. The find-duplicates/merge endpoints remain available for a future administrative task; they do not appear on the individual edit page.
+
+## Credits (library only)
+
+`person_credits` rows are created by media ingestion (book authors/editors, audiobook authors/narrators, album artists). A credit always points at a library entity via `target_type` + `target_id` (which is `NOT NULL`), and the profile resolves the current title, slug, cover, date, and series membership from the library. Credits that no longer resolve to a library item are excluded from the profile so the profile only ever shows library works. There is no user-facing surface for creating non-library credits.
+
+## Profile view
+
+`/people/:slug` follows `docs/Individual.txt`: header with photo, name/pronouns, derived roles, compact bio (with expander), and a LINKS column (personal site + person links); per-media tabs (books/audiobooks/music/movies/tv/podcasts from credit counts) show Last published (dated works, most recent first, up to ten), series groups (book/audiobook series membership with positions), other works (no series), and an "All works" cover grid. Release dates come from library metadata (book/audiobook provider payloads via `publicationDate`/`releaseDate`, movie/album `release_date`); works without dates render without a date rather than fabricated. If a tab has no dated works its "Last published" section is omitted. No upcoming/external-bibliography content is shown.
+
+## Authorization
+
+Editing requires `people.write` (`PEOPLE_WRITE`), granted to Curator and Admin. Read endpoints (profile, `/people/:slug` and `/people/:slug/metadata/editor`) use `books.read`, matching the existing people routes. Members cannot write person metadata (403).
+
+## Tests
+
+* `tests/person-canonical-field-kinds.test.ts` — registry invariants and field kinds.
+* `tests/people-metadata-edit.test.ts` — API behavior: single/bulk field writes, lock lifecycle, portrait rejection, editor payload shape, fetch route authorization, merge, role grants.
+* `tests/people-credits.test.ts` — profile assembly: credit counts and library-joined credits across media.

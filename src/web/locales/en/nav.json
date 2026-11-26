@@ -1,0 +1,23 @@
+{
+  "home": "Home",
+  "shelves": "Shelves",
+  "universes": "Universes",
+  "books": "Books",
+  "audiobooks": "Audiobooks",
+  "music": "Music",
+  "movies": "Movies",
+  "tv": "TV",
+  "photos": "Photos",
+  "ttrpg": "TTRPG",
+  "calendar": "Calendar",
+  "activity": "Activity",
+  "goals": "Goals",
+  "clubs": "Clubs",
+  "downloads": "Downloads",
+  "stats": "Stats",
+  "profile": "Profile",
+  "add": "Add",
+  "addContent": "Add content",
+  "uploadFiles": "Upload files",
+  "importBooks": "Import books"
+}

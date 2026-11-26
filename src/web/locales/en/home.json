@@ -1,0 +1,22 @@
+{
+  "continueReading": "Continue Reading",
+  "continueListening": "Continue Listening",
+  "continueWatching": "Continue Watching",
+  "recentlyAdded": "Recently Added",
+  "recentlyFinished": "Recently Finished",
+  "favorites": "Favorites",
+  "recentActivity": "Recent Activity",
+  "upcoming": "Upcoming",
+  "shelves": "Your Shelves",
+  "shortcuts": "Library Shortcuts",
+  "seeAll": "See all",
+  "welcomeTitle": "Welcome to your library",
+  "welcomeBody": "Feylore is ready. When you add books, audiobooks, and other media, they will appear here. Your reading, listening, and activity will show up as your collection grows.",
+  "importBooks": "Import books",
+  "browseSearch": "Search your library",
+  "loadError": "Could not load your home page. Try again later.",
+  "shortcut_search": "Search",
+  "shortcut_books": "Books",
+  "shortcut_audiobooks": "Audiobooks",
+  "shortcut_shelves": "Shelves"
+}

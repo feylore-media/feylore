@@ -1,0 +1,173 @@
+.readerShell {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  z-index: 100;
+}
+
+.readerToolbar {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  align-items: center;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.readerTitle {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 12rem;
+}
+
+.readerProgress {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  margin-left: auto;
+}
+
+.readerViewport {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.readerControls {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.readerPanel {
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  bottom: 0;
+  width: min(20rem, 90vw);
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.readerPanelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.readerPanelHeader h2 {
+  font-size: var(--text-base);
+  text-transform: capitalize;
+  margin: 0;
+}
+
+.readerPanelBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2);
+}
+
+.panelList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.panelListButton {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.panelListButton:hover {
+  background: var(--color-surface-raised);
+}
+
+.panelListRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.typographyPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.typographyPanel label {
+  font-size: var(--text-sm);
+}
+
+.selectionToolbar {
+  flex-wrap: wrap;
+  width: max-content;
+  max-width: calc(100% - var(--space-4));
+  max-height: 70vh;
+  overflow: auto;
+  position: absolute;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  z-index: 20;
+}
+
+.readerError {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex: 1;
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.repPicker {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (max-width: 768px) {
+  .readerTitle {
+    max-width: 8rem;
+  }
+
+  .readerProgress {
+    display: none;
+  }
+
+  .readerPanel {
+    width: 100%;
+    top: auto;
+    height: 50%;
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: 1px solid var(--color-border);
+  }
+}

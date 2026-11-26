@@ -1,0 +1,12 @@
+{
+  "recentAchievements": "Recent achievements",
+  "achievementCount_one": "{{count}} achievement",
+  "achievementCount_other": "{{count}} achievements",
+  "achievementCount": "{{count}} achievements",
+  "earned": "Earned {{date}}",
+  "fromSource": "From {{source}}",
+  "noRecentAchievements": "No achievements earned yet.",
+  "viewAll": "View all",
+  "loadError": "Could not load achievements.",
+  "disabled": "Achievements are disabled on this server."
+}

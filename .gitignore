@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+*.tsbuildinfo
+
+# Runtime data
+data/
+*.log
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Local database tooling
+.drizzle/
+
+# Operating system
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.swp
+
+# Local IDE configuration
+.idea/
+.vscode/

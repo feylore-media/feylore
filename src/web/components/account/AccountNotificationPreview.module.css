@@ -1,0 +1,146 @@
+.section {
+  padding: var(--space-3) var(--space-2) var(--space-2);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.heading {
+  margin: 0 0 var(--space-2);
+  padding: 0 var(--space-1);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.empty {
+  margin: 0;
+  padding: var(--space-3) var(--space-2);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-sm);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-sm);
+}
+
+.cardLink:hover .card,
+.cardLink:focus-visible .card {
+  background: var(--color-accent-subtle);
+}
+
+.cardLink:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.card {
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.cardUnread {
+  border-color: var(--color-accent);
+  background: var(--color-accent-subtle);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.cardType {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.cardTime {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
+.cardBody {
+  margin: var(--space-1) 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--color-text-muted);
+}
+
+.errorText {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.retry {
+  margin-top: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.retry:hover,
+.retry:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.retry:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.viewAll {
+  display: block;
+  margin-top: var(--space-2);
+  padding: var(--space-1) var(--space-1);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  text-align: center;
+}
+
+.viewAll:hover,
+.viewAll:focus-visible {
+  color: var(--color-accent);
+}
+
+.viewAll:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+  border-radius: var(--radius-sm);
+}

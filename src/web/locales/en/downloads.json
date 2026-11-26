@@ -1,0 +1,21 @@
+{
+  "title": "Downloads",
+  "emptyTitle": "No downloads yet",
+  "emptyDetail": "Download a book from its detail page to read offline on this device.",
+  "sectionActive": "Downloading",
+  "sectionQueued": "Queued",
+  "sectionAvailable": "Available offline",
+  "sectionFailed": "Failed",
+  "statusQueued": "Queued",
+  "statusDownloading": "Downloading",
+  "statusAvailable": "Available offline",
+  "statusFailed": "Failed",
+  "remove": "Remove",
+  "retry": "Retry",
+  "downloaded": "Downloaded",
+  "downloading": "Downloading…",
+  "download": "Download",
+  "viewDownloads": "View downloads",
+  "unknownTitle": "Downloaded file",
+  "progress": "{{percent}}% complete"
+}

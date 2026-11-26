@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../docs"
+    },
+    {
+      "path": "../koreader_plugin"
+    },
+    {
+      "path": "../book_conversion"
+    }
+  ],
+  "settings": {},
+}

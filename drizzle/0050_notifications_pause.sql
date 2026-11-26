@@ -1,0 +1,1 @@
+ALTER TABLE "user_preferences" ADD COLUMN "notifications_paused" boolean DEFAULT false NOT NULL;--> statement-breakpoint

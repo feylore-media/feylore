@@ -1,0 +1,16 @@
+{
+  "appName": "Feylore",
+  "loading": "Loading…",
+  "error": "Something went wrong",
+  "retry": "Try again",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "add": "Add",
+  "create": "Create",
+  "search": "Search",
+  "offline": "You are offline. Downloaded content may still be available.",
+  "administration": "Administration",
+  "settings": "Settings"
+}

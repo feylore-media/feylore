@@ -1,0 +1,14 @@
+.icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.iconDefault {
+  color: var(--color-icon);
+}
+
+.iconIdentity {
+  --solar-color: var(--color-icon-identity);
+  --solar-secondary-color: var(--color-icon-identity-secondary);
+  --solar-secondary-opacity: 1;
+}

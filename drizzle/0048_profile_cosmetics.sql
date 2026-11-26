@@ -1,0 +1,1 @@
+ALTER TABLE "user_profiles" ADD COLUMN "cosmetics" jsonb DEFAULT '{}'::jsonb NOT NULL;--> statement-breakpoint

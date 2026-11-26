@@ -1,0 +1,67 @@
+/*
+ * Default Feylore theme — neutral-to-plum surfaces, violet/plum/mauve accents.
+ * Dark is primary (:root). Light is [data-theme="light"].
+ * Future themes remap these semantic tokens without changing components.
+ */
+
+:root {
+  color-scheme: dark;
+
+  --color-paper: #141318;
+  --color-surface: #1b1a20;
+  --color-surface-muted: #222128;
+  --color-surface-raised: #2a2830;
+
+  --color-text: #e8e4ec;
+  --color-text-muted: #9a94a4;
+
+  --color-border: #2e2c36;
+  --color-divider: rgb(232 228 236 / 8%);
+
+  --color-accent: #a88bc4;
+  --color-accent-muted: #8a7a9e;
+  --color-accent-subtle: rgb(168 139 196 / 12%);
+  --color-accent-rose: #c49aab;
+
+  --color-icon: var(--color-text-muted);
+  --color-icon-identity: var(--color-accent-rose);
+  --color-icon-identity-secondary: #b8a070;
+
+  --color-danger: #c46a7a;
+
+  --color-overlay: rgb(0 0 0 / 55%);
+  --cover-shadow: none;
+
+  /* Deprecated aliases — use --color-text / --color-text-muted */
+  --color-ink: var(--color-text);
+  --color-ink-muted: var(--color-text-muted);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-paper: #f4f2f6;
+  --color-surface: #ffffff;
+  --color-surface-muted: #ebe8f0;
+  --color-surface-raised: #ffffff;
+
+  --color-text: #1a1820;
+  --color-text-muted: #5c5668;
+
+  --color-border: #ddd8e4;
+  --color-divider: rgb(26 24 32 / 8%);
+
+  --color-accent: #6b4f8a;
+  --color-accent-muted: #7a6a8e;
+  --color-accent-subtle: rgb(107 79 138 / 10%);
+  --color-accent-rose: #a67a8e;
+
+  --color-icon: var(--color-text-muted);
+  --color-icon-identity: #a67a8e;
+  --color-icon-identity-secondary: #9a8558;
+
+  --color-danger: #9b2c2c;
+
+  --color-overlay: rgb(26 24 32 / 40%);
+  --cover-shadow: 0 2px 12px rgb(26 24 32 / 10%);
+}

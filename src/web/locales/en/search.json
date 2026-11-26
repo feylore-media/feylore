@@ -1,0 +1,9 @@
+{
+  "title": "Search",
+  "placeholder": "Search your library…",
+  "emptyQuery": "Enter a search term above.",
+  "noResults": "No results for “{{query}}”.",
+  "type_book": "Book",
+  "type_audiobook": "Audiobook",
+  "loadMore": "Load more"
+}

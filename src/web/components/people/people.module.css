@@ -1,0 +1,634 @@
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-4);
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.filterInput {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 0.9375rem;
+  width: 12rem;
+}
+
+.filterInput:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s;
+}
+
+.card:hover {
+  background: var(--color-surface-muted);
+}
+
+.cardPhoto {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--cover-radius);
+  background: var(--color-surface-muted);
+}
+
+.cardPhotoPlaceholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--cover-radius);
+  background: var(--color-surface-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--color-ink-faint);
+}
+
+.cardName {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-top: var(--space-2);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardRole {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  margin-top: var(--space-1);
+}
+
+.cardNextWork {
+  margin-top: var(--space-2);
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+}
+
+.alphabetNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.alphabetNav button {
+  background: none;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+}
+
+.alphabetNav button:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-ink);
+}
+
+.alphabetNavActive {
+  color: var(--color-accent) !important;
+  font-weight: 600;
+}
+
+.alphabetNavDisabled {
+  opacity: 0.3;
+  cursor: default !important;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  font-size: 0.875rem;
+}
+
+.pagination button {
+  background: none;
+  border: 1px solid var(--color-border);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+}
+
+.pagination button:hover {
+  background: var(--color-surface-muted);
+}
+
+.paginationActive {
+  background: var(--color-accent) !important;
+  color: white !important;
+  border-color: var(--color-accent) !important;
+}
+
+.empty {
+  color: var(--color-ink-muted);
+  font-size: 0.9375rem;
+}
+
+.loading {
+  color: var(--color-ink-muted);
+  font-size: 0.9375rem;
+}
+
+/* Profile page */
+
+.profileHeader {
+  display: flex;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  align-items: flex-start;
+}
+
+.profilePhoto {
+  width: 160px;
+  height: 213px;
+  object-fit: cover;
+  border-radius: var(--cover-radius);
+  background: var(--color-surface-muted);
+  flex-shrink: 0;
+}
+
+.profilePhotoPlaceholder {
+  width: 160px;
+  height: 213px;
+  border-radius: var(--cover-radius);
+  background: var(--color-surface-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--color-ink-faint);
+  flex-shrink: 0;
+}
+
+.profileInfo {
+  min-width: 0;
+}
+
+.profileName {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.profilePronouns {
+  font-size: 0.9375rem;
+  color: var(--color-ink-muted);
+  margin-top: var(--space-1);
+}
+
+.profileRoles {
+  font-size: 0.9375rem;
+  color: var(--color-ink-muted);
+  margin-top: var(--space-1);
+}
+
+.profileLinks {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.profileLinks a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.profileLinks a:hover {
+  text-decoration: underline;
+}
+
+.profileSection {
+  margin-bottom: var(--space-8);
+}
+
+.profileSectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-3);
+}
+
+.profileBio {
+  color: var(--color-ink-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.mediaTabs {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+
+.mediaTab {
+  background: none;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+}
+
+.mediaTab:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-ink);
+}
+
+.mediaTabActive {
+  color: var(--color-accent) !important;
+  font-weight: 600;
+}
+
+.creditList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.creditRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.creditRow a {
+  color: var(--color-ink);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.creditRow a:hover {
+  color: var(--color-accent);
+}
+
+.creditRole {
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+}
+
+.relationshipList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.relationshipRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.relationshipRow a {
+  color: var(--color-ink);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.relationshipRow a:hover {
+  color: var(--color-accent);
+}
+
+.relationshipType {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+}
+
+.profileEditLink {
+  font-size: 0.8125rem;
+  margin-top: var(--space-2);
+}
+
+.profileEditLink a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.profileEditLink a:hover {
+  text-decoration: underline;
+}
+
+/* Profile header actions and links column */
+
+.profileTopActions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  margin-bottom: var(--space-4);
+}
+
+.profileAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.profileAction:hover {
+  text-decoration: underline;
+}
+
+.profileAction:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.profileLinksColumn {
+  flex-shrink: 0;
+  min-width: 12rem;
+  max-width: 16rem;
+  padding-left: var(--space-6);
+  border-left: 1px solid var(--color-border);
+}
+
+.profileLinksTitle {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-2);
+}
+
+.profileLinksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.profileLinksList a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.profileLinksList a:hover {
+  text-decoration: underline;
+}
+
+.profileBioWrap {
+  margin-top: var(--space-3);
+}
+
+.profileBioToggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.profileBioToggle:hover {
+  text-decoration: underline;
+}
+
+/* Works sections */
+
+.worksSection {
+  margin-bottom: var(--space-8);
+}
+
+.worksSectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-3);
+}
+
+.workRail {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: var(--space-4);
+}
+
+.workGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: var(--space-3);
+}
+
+.workCell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.workCover {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--cover-radius);
+  background: var(--color-surface-muted);
+}
+
+.workCoverPlaceholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--cover-radius);
+  background: var(--color-surface-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--color-ink-faint);
+}
+
+.workTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-ink);
+  text-decoration: none;
+  margin-top: var(--space-2);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a.workTitle:hover {
+  color: var(--color-accent);
+}
+
+.workRole,
+.workDate {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  margin-top: var(--space-1);
+}
+
+.identityList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.identityRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.identityRowMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.identityRowTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.identityRowUrl {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.identityRowUrl:hover {
+  color: var(--color-accent);
+}
+
+.kindBadge {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-muted);
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
+}
+
+.sourceBadge {
+  font-size: 0.6875rem;
+  color: var(--color-ink-muted);
+}
+
+.identityActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.identityForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 36rem;
+}
+
+.identityFormGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.identityField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.identityFieldLabel {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+}
+
+.identityFieldInput {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+
+.identityFieldInput:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.editorActionRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.errorNote {
+  font-size: 0.875rem;
+  color: var(--color-danger);
+  margin: 0;
+}

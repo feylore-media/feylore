@@ -1,0 +1,94 @@
+.trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.badge {
+  position: absolute;
+  top: -0.3125rem;
+  right: -0.3125rem;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  padding: 0 0.3125rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: var(--color-paper);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid var(--color-paper);
+}
+
+.trigger:hover,
+.trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.panel {
+  left: auto;
+  right: 0;
+  min-width: min(22rem, calc(100vw - 2rem));
+  max-width: min(22rem, calc(100vw - 2rem));
+  max-height: min(32rem, calc(100vh - var(--header-height) - 2rem));
+  overflow-y: auto;
+  padding: 0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+}
+
+.identityText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.displayName {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.username {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav {
+  padding: var(--space-2);
+}
+
+.menuRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.logout {
+  padding: var(--space-2);
+}

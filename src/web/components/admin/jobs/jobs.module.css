@@ -1,0 +1,197 @@
+.jobsToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.summaryBanner {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-muted);
+}
+
+.skeletonInline {
+  display: inline-block;
+  width: 12rem;
+  height: 1em;
+  background: var(--color-surface-raised);
+  border-radius: 2px;
+}
+
+.failuresToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.failuresToggle input {
+  accent-color: var(--color-accent);
+}
+
+.ingestNote {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+}
+
+.ingestNote a {
+  color: var(--color-accent);
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.taskName {
+  font-weight: 500;
+}
+
+.runCount {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+}
+
+.typeLabel {
+  color: var(--color-ink-muted);
+  font-size: 0.875rem;
+}
+
+.streakKeepsFailing {
+  font-weight: 600;
+  color: var(--color-danger, #e57373);
+}
+
+.streakNone {
+  color: var(--color-ink-muted);
+}
+
+.errorCell {
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowFailed td {
+  background: color-mix(in srgb, var(--color-danger, #e57373) 6%, transparent);
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.statusFailed {
+  background: color-mix(in srgb, var(--color-danger, #e57373) 20%, transparent);
+  color: var(--color-danger, #e57373);
+}
+
+.statusCompleted {
+  background: color-mix(in srgb, var(--color-success, #81c784) 15%, transparent);
+  color: var(--color-success, #81c784);
+}
+
+.statusRunning {
+  background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  color: var(--color-accent);
+}
+
+.statusQueued {
+  background: var(--color-surface-raised);
+  color: var(--color-ink-muted);
+}
+
+.statusCancelled {
+  background: var(--color-surface-raised);
+  color: var(--color-ink-muted);
+}
+
+.historyPanel {
+  padding: var(--space-3) var(--space-3) var(--space-3) calc(var(--space-3) + 2rem);
+  background: var(--color-surface-raised);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.historyTitle {
+  margin: 0 0 var(--space-2);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.historyLoading {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+}
+
+.historyList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.historyItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.875rem;
+}
+
+.historyItem:first-child {
+  border-top: none;
+}
+
+.historyTime {
+  color: var(--color-ink-muted);
+}
+
+.historyError {
+  flex: 1 1 100%;
+  color: var(--color-ink-muted);
+}
+
+.skeletonRow td {
+  padding: var(--space-3);
+}
+
+.skeletonCell {
+  height: 1rem;
+  background: var(--color-surface-raised);
+  border-radius: 2px;
+}
+
+.emptyState {
+  margin: var(--space-6) 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-muted);
+}
+
+.errorBanner {
+  margin: var(--space-3) 0;
+  padding: var(--space-3);
+  font-size: 0.875rem;
+  color: var(--color-danger, #e57373);
+  border: 1px solid color-mix(in srgb, var(--color-danger, #e57373) 30%, transparent);
+}

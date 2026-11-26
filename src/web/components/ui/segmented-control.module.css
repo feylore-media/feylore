@@ -1,0 +1,75 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.segment {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.segment + .segment {
+  margin-top: calc(-1px);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.segment:not(:last-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.segment:hover {
+  background: var(--color-surface-muted);
+}
+
+.segment:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+  z-index: 1;
+}
+
+.segmentSelected {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+  z-index: 1;
+}
+
+.segmentSelected + .segment {
+  border-top-color: var(--color-accent);
+}
+
+.radio {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+  accent-color: var(--color-accent);
+}
+
+.segmentContent {
+  min-width: 0;
+}
+
+.segmentLabel {
+  display: block;
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+.segmentDescription {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}

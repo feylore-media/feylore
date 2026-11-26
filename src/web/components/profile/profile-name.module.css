@@ -1,0 +1,97 @@
+/* Profile display-name cosmetics — predefined classes, no arbitrary CSS.
+   Colors arrive as validated palette keys and hex values, mapped to theme
+   tokens by the ProfileName component. */
+
+.name {
+  --profile-name-color: currentColor;
+  --profile-name-accent: var(--profile-accent, var(--color-accent));
+  color: var(--profile-name-color);
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+/* Sizes: inline attribution inherits the surrounding type scale for sm/md;
+   lg is the explicit heading size. */
+.size--sm {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.size--md {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.size--lg {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.style--serif {
+  font-family: var(--font-display);
+}
+
+.style--italic {
+  font-style: italic;
+}
+
+.style--bold {
+  font-weight: 700;
+}
+
+.style--small-caps {
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+
+.style--gradient,
+.style--shimmer {
+  color: var(--profile-name-color, currentColor);
+}
+
+/* Gradient styles fall back to a solid validated color where background-clip:
+   text is unsupported, so the name is never invisible. */
+@supports (background-clip: text) {
+  .style--gradient,
+  .style--shimmer {
+    background-image: linear-gradient(
+      90deg,
+      var(--profile-name-color, currentColor) 0%,
+      var(--profile-name-accent, var(--color-accent)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .style--shimmer {
+    background-image: linear-gradient(
+      90deg,
+      var(--profile-name-color, currentColor) 0%,
+      var(--profile-name-color, currentColor) 40%,
+      var(--profile-name-accent, var(--color-accent)) 50%,
+      var(--profile-name-color, currentColor) 60%,
+      var(--profile-name-color, currentColor) 100%
+    );
+    background-size: 220% 100%;
+    background-position: 200% 0;
+  }
+}
+
+@keyframes nameShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .style--shimmer {
+    animation: nameShimmer 4.5s ease-in-out infinite;
+  }
+}

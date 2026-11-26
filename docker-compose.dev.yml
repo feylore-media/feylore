@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: feylore
+      POSTGRES_PASSWORD: feylore
+      POSTGRES_DB: feylore
+    ports:
+      - "5432:5432"
+    volumes:
+      - feylore_pg_dev:/var/lib/postgresql/data
+
+volumes:
+  feylore_pg_dev:

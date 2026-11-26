@@ -1,0 +1,187 @@
+.processingPage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.callout {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.moduleList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.moduleCard {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+}
+
+.moduleSummary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem 1rem;
+  padding: 1rem 1.25rem;
+  align-items: start;
+}
+
+.moduleSummaryMain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.moduleTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.summaryLabel {
+  color: var(--color-text-secondary);
+}
+
+.summaryValue {
+  font-family: var(--font-mono, monospace);
+  word-break: break-word;
+}
+
+.configureButton {
+  align-self: start;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+}
+
+.configureButton:hover {
+  color: var(--color-text);
+}
+
+.moduleEditor {
+  border-top: 1px solid var(--color-border);
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.helperText {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
+.fieldLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.textInput {
+  width: 100%;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.9rem;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.previewBox {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-surface-elevated, rgba(255, 255, 255, 0.04));
+  border-radius: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: var(--color-link, #7eb6ff);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  text-align: left;
+}
+
+.unavailable {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.commonTemplates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.commonTemplatesLabel {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.commonTemplatesList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.commonTemplateButton {
+  background: none;
+  border: none;
+  color: var(--color-link, #7eb6ff);
+  cursor: pointer;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  padding: 0;
+  text-align: left;
+}
+
+.footerLink {
+  font-size: 0.9rem;
+}
