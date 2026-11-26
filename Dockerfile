@@ -37,6 +37,6 @@ COPY package.json ./package.json
 COPY drizzle ./drizzle
 USER node
 EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 CMD node -e "fetch('http://127.0.0.1:3000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+HEALTHCHECK --interval=30s --timeout=5s --start-period=150s --retries=3 CMD node -e "Promise.all([3000,3001].map(p=>fetch('http://127.0.0.1:'+p+'/health/ready'))).then(r=>process.exit(r.every(x=>x.ok)?0:1)).catch(()=>process.exit(1))"
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["node", "dist/server/server/index.js"]
+CMD ["node", "dist/server/server/supervisor.js"]
