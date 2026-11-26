@@ -97,7 +97,7 @@ describe("Processing policy API", () => {
       headers: { cookie, origin: "http://localhost:5173" },
     });
     expect(res.statusCode).toBe(200);
-    const modules = res.json().data as Array<{ moduleId: string }>;
+    const modules = res.json().data as Array<{ moduleId: string; policy: { conversion: { enabled: boolean; target: string } } }>;
     expect(modules.some((m) => m.moduleId === "books")).toBe(true);
     const books = modules.find((m) => m.moduleId === "books");
     expect(books?.policy.conversion.enabled).toBe(true);

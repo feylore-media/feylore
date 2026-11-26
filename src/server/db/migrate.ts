@@ -1,13 +1,15 @@
-import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { createPool, createDb } from "./client.js";
+import { createPool } from "./client.js";
 import { loadConfig } from "../config.js";
+import { applyStartupMigrations } from "./startup-migrations.js";
 
 async function main() {
   const config = loadConfig();
   const pool = createPool(config.DATABASE_URL);
-  const db = createDb(pool);
-  await migrate(db, { migrationsFolder: "./drizzle" });
-  await pool.end();
+  try {
+    await applyStartupMigrations(pool);
+  } finally {
+    await pool.end();
+  }
   console.log("Migrations applied.");
 }
 

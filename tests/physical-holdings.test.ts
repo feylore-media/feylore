@@ -31,7 +31,6 @@ const dbAvailable = await (async () => {
 const headers = (cookie: string) => ({
   cookie,
   origin: "http://localhost:5173",
-  "content-type": "application/json",
 });
 
 describe("Physical book ownership", () => {

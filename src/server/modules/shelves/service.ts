@@ -1,4 +1,4 @@
-import { eq, and, asc, sql, or, ilike } from "drizzle-orm";
+import { eq, and, sql, or, ilike } from "drizzle-orm";
 import type { Database } from "../../db/client.js";
 import * as schema from "../../db/schema.js";
 import { generateId } from "../../security/crypto.js";
@@ -228,6 +228,8 @@ export class ShelfService {
 
     const { editors, confirmEmptyEditors, scopeChange, scope, ...shelfPatch } =
       input;
+    void confirmEmptyEditors;
+    void scopeChange;
 
     if (Object.keys(shelfPatch).length > 0) {
       await this.db

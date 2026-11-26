@@ -98,7 +98,7 @@ describe("Creative identity credit sync", () => {
   async function createBook(
     title: string,
     authors: string[],
-  ): Promise<{ slug: string }> {
+  ): Promise<{ id: string; slug: string }> {
     const res = await app.inject({
       method: "POST",
       url: "/api/v1/books",
@@ -110,7 +110,7 @@ describe("Creative identity credit sync", () => {
       payload: { title, authors },
     });
     expect(res.statusCode).toBe(201);
-    return res.json().data as { slug: string };
+    return res.json().data as { id: string; slug: string };
   }
 
   it.skipIf(!dbAvailable)(

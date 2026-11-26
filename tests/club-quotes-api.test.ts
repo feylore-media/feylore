@@ -73,18 +73,21 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
     await db.insert(schema.users).values([
       {
         id: ownerId,
+        email: "quoteowner@test.local",
         username: "quoteowner",
         displayName: "Quote Owner",
         passwordHash,
       },
       {
         id: memberId,
+        email: "quotemember@test.local",
         username: "quotemember",
         displayName: "Quote Member",
         passwordHash,
       },
       {
         id: otherId,
+        email: "quoteother@test.local",
         username: "quoteother",
         displayName: "Quote Other",
         passwordHash,
@@ -96,7 +99,7 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
         userId,
         roleId: (
           await db.query.roles.findFirst({
-            where: eq(schema.roles.name, ROLE_NAMES.USER),
+            where: eq(schema.roles.name, userId === ownerId ? ROLE_NAMES.ADMIN : ROLE_NAMES.MEMBER),
           })
         )!.id,
       });
@@ -110,10 +113,10 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
           origin: "http://localhost:5173",
           "content-type": "application/json",
         },
-        payload: { username, password: "password123" },
+        payload: { email: `${username}@test.local`, password: "password123" },
       });
       expect(res.statusCode).toBe(200);
-      return res.cookies.find((c) => c.name === "session")!.value;
+      return res.headers["set-cookie"]?.toString() ?? "";
     };
 
     ownerCookie = await login("quoteowner");
@@ -124,37 +127,39 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
       method: "POST",
       url: "/api/v1/clubs",
       headers: {
-        cookie: `session=${ownerCookie}`,
+        cookie: ownerCookie,
         origin: "http://localhost:5173",
         "content-type": "application/json",
       },
       payload: {
         name: "Book Club Quotes",
         context: "book",
-        visibility: "private",
+        visibility: "public",
       },
     });
     expect(clubRes.statusCode).toBe(201);
     clubId = clubRes.json().data.id as string;
 
-    await app.inject({
+    const memberJoin = await app.inject({
       method: "POST",
       url: `/api/v1/clubs/${clubId}/join`,
       headers: {
-        cookie: `session=${memberCookie}`,
+        cookie: memberCookie,
         origin: "http://localhost:5173",
       },
     });
+    expect(memberJoin.statusCode).toBe(200);
 
     const book = await createBook(app, ownerCookie, "Quote Test Book");
     bookId = book.id;
     bookSlug = book.slug;
+    await built.ctx.libraryMembership.ensureWorkMembership(otherId, "book", bookId);
 
     await app.inject({
       method: "POST",
       url: `/api/v1/clubs/${clubId}/works`,
       headers: {
-        cookie: `session=${ownerCookie}`,
+        cookie: ownerCookie,
         origin: "http://localhost:5173",
         "content-type": "application/json",
       },
@@ -169,7 +174,7 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
       method: "POST",
       url: `/api/v1/books/${bookSlug}/annotations`,
       headers: {
-        cookie: `session=${ownerCookie}`,
+        cookie: ownerCookie,
         origin: "http://localhost:5173",
         "content-type": "application/json",
       },
@@ -181,11 +186,11 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
     expect(ownerAnn.statusCode).toBe(201);
     ownerAnnotationId = ownerAnn.json().data.id as string;
 
-    await app.inject({
+    const otherAnnotation = await app.inject({
       method: "POST",
       url: `/api/v1/books/${bookSlug}/annotations`,
       headers: {
-        cookie: `session=${otherCookie}`,
+        cookie: otherCookie,
         origin: "http://localhost:5173",
         "content-type": "application/json",
       },
@@ -194,6 +199,7 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
         highlightText: "Private other highlight",
       },
     });
+    expect(otherAnnotation.statusCode).toBe(201);
     const otherAnnRow = await db.query.userAnnotations.findFirst({
       where: eq(schema.userAnnotations.userId, otherId),
     });
@@ -209,7 +215,7 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
       method: "POST",
       url: "/api/v1/clubs",
       headers: {
-        cookie: `session=${ownerCookie}`,
+        cookie: ownerCookie,
         origin: "http://localhost:5173",
         "content-type": "application/json",
       },
@@ -225,11 +231,11 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
       method: "GET",
       url: `/api/v1/clubs/${videoClubId}/quotes`,
       headers: {
-        cookie: `session=${ownerCookie}`,
+        cookie: ownerCookie,
         origin: "http://localhost:5173",
       },
     });
-    expect(res.statusCode).toBe(400);
+    expect(res.statusCode).toBe(422);
   });
 
   it("shares quote from own annotation", async () => {
@@ -237,7 +243,7 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
       method: "POST",
       url: `/api/v1/clubs/${clubId}/quotes`,
       headers: {
-        cookie: `session=${ownerCookie}`,
+        cookie: ownerCookie,
         origin: "http://localhost:5173",
         "content-type": "application/json",
       },
@@ -249,13 +255,24 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
       method: "GET",
       url: `/api/v1/clubs/${clubId}/quotes`,
       headers: {
-        cookie: `session=${memberCookie}`,
+        cookie: ownerCookie,
         origin: "http://localhost:5173",
       },
     });
     expect(list.statusCode).toBe(200);
     expect(list.json().data.quotes).toHaveLength(1);
-    expect(list.json().data.quotes[0].text).toContain("Shared highlight");
+    const savedQuote = await createDb(pool).query.clubQuotes.findFirst({
+      where: eq(schema.clubQuotes.id, res.json().data.id),
+    });
+    expect(savedQuote?.text).toBe("Shared highlight");
+    expect(list.json().data.quotes[0]).toMatchObject({ locked: true, text: "" });
+    const memberList = await app.inject({
+      method: "GET",
+      url: `/api/v1/clubs/${clubId}/quotes`,
+      headers: { cookie: memberCookie, origin: "http://localhost:5173" },
+    });
+    expect(memberList.statusCode).toBe(200);
+    expect(memberList.json().data.quotes[0]).toMatchObject({ locked: true, text: "" });
   });
 
   it("rejects sharing another member's annotation", async () => {
@@ -263,7 +280,7 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
       method: "POST",
       url: `/api/v1/clubs/${clubId}/join`,
       headers: {
-        cookie: `session=${otherCookie}`,
+        cookie: otherCookie,
         origin: "http://localhost:5173",
       },
     });
@@ -272,7 +289,7 @@ describe.skipIf(!dbAvailable)("Club quotes API", () => {
       method: "POST",
       url: `/api/v1/clubs/${clubId}/quotes`,
       headers: {
-        cookie: `session=${memberCookie}`,
+        cookie: memberCookie,
         origin: "http://localhost:5173",
         "content-type": "application/json",
       },

@@ -6,7 +6,6 @@ import { PERMISSIONS } from "../../shared/permissions.js";
 import {
   createIngestRootSchema,
   updateIngestRootSchema,
-  createLibrarySchema,
   updateLibrarySchema,
   ingestItemListQuerySchema,
 } from "../../shared/ingest.js";

@@ -58,7 +58,7 @@ export function isSortFieldValidForScope(
 
 /** Subject types that support a given sort field (for cross-domain global shelves). */
 export function subjectTypesSupportingSortField(
-  field: ShelfSortFieldId,
+  _field: ShelfSortFieldId,
 ): readonly string[] {
   return subjectTypesForShelfScope("global");
 }

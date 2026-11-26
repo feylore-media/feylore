@@ -11,6 +11,7 @@ import * as schema from "../src/server/db/schema.js";
 import { seed } from "../src/server/db/seed.js";
 import { generateId } from "../src/server/security/crypto.js";
 import { ROLE_NAMES } from "../src/shared/permissions.js";
+import { createBookRepresentation } from "./helpers/book-representation.js";
 
 const DATABASE_URL =
   process.env.DATABASE_URL ??
@@ -143,7 +144,8 @@ describe("Books search", () => {
       payload: { favorite: true },
     });
 
-    await app.inject({
+    const progressRepresentationId = await createBookRepresentation(db, bookAlphaId);
+    const progressResponse = await app.inject({
       method: "PUT",
       url: `/api/v1/books/${bookAlphaSlug}/progress`,
       headers: {
@@ -152,9 +154,11 @@ describe("Books search", () => {
         "content-type": "application/json",
       },
       payload: {
+        representationId: progressRepresentationId,
         locator: { type: "epub-cfi", progression: 0.5 },
       },
     });
+    expect(progressResponse.statusCode).toBe(200);
   }, 60000);
 
   afterAll(async () => {

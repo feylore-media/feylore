@@ -27,6 +27,7 @@ export async function buildApp() {
   const ctx = createContext(config, db);
   await ensureDefaultMetadataProviders(ctx.metadata, ctx.metadataRegistry);
   await ctx.files.loadStorageLocations();
+  if (config.NODE_ENV === "production") await ctx.jobs.start();
   await bootstrapIngestStorage(db, config, ctx.files, ctx.libraries);
   await ctx.files.loadStorageLocations();
 
@@ -52,11 +53,26 @@ export async function buildApp() {
   app.setErrorHandler(errorHandler);
   await registerRoutes(app, ctx);
 
+  app.get("/health/live", async () => ({ status: "ok" }));
+  app.get("/health/ready", async (_request, reply) => {
+    try {
+      await pool.query("SELECT 1");
+      return { status: "ok" };
+    } catch {
+      return reply.status(503).send({ status: "unavailable" });
+    }
+  });
+
   if (config.NODE_ENV === "production") {
-    const webRoot = path.join(__dirname, "../../dist/web");
+    const webRoot = path.resolve(__dirname, "../../../web");
     await app.register(fastifyStatic, { root: webRoot, prefix: "/" });
     app.setNotFoundHandler((request, reply) => {
-      if (request.url.startsWith("/api/")) {
+      if (
+        request.url.startsWith("/api/") ||
+        request.url.startsWith("/health/") ||
+        request.method !== "GET" ||
+        !request.headers.accept?.includes("text/html")
+      ) {
         return reply
           .status(404)
           .send({ error: { code: "NOT_FOUND", message: "Not found" } });

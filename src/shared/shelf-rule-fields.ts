@@ -1,5 +1,4 @@
 import type { ShelfRuleOperator } from "./shelf-expression.js";
-import { SHELF_RULE_OPERATORS } from "./shelf-expression.js";
 import type { WorkSubjectType } from "./subject.js";
 import { WORK_SUBJECT_TYPES } from "./subject.js";
 import type { ShelfScopeId } from "./shelf-scopes.js";

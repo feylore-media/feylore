@@ -1,5 +1,5 @@
 import type { GoalCandidate } from "./goal-evaluation.js";
-import type { GoalAggregation, GoalDimensionField, GoalMetricField } from "./goals.js";
+import type { GoalAggregation } from "./goals.js";
 
 export type MediaDomain =
   | "books"

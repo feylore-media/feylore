@@ -13,6 +13,7 @@ import { generateId } from "../src/server/security/crypto.js";
 import { ROLE_NAMES } from "../src/shared/permissions.js";
 import { ACTIVITY_TYPES } from "../src/shared/activity.js";
 import { HOME_LIMITS } from "../src/shared/home.js";
+import { createBookRepresentation } from "./helpers/book-representation.js";
 
 const DATABASE_URL =
   process.env.DATABASE_URL ??
@@ -259,6 +260,8 @@ describe("Home API", () => {
 
     const bookA = await createBook(app, user2Cookie, "Continue Alpha");
     const bookB = await createBook(app, user2Cookie, "Continue Beta");
+    const repA = await createBookRepresentation(db, bookA.id);
+    const repB = await createBookRepresentation(db, bookB.id);
 
     await app.inject({
       method: "PUT",
@@ -269,6 +272,7 @@ describe("Home API", () => {
         "content-type": "application/json",
       },
       payload: {
+        representationId: repA,
         locator: { type: "epub-cfi", progression: 0.2, totalProgression: 0.2 },
       },
     });
@@ -284,6 +288,7 @@ describe("Home API", () => {
         "content-type": "application/json",
       },
       payload: {
+        representationId: repB,
         locator: { type: "epub-cfi", progression: 0.3, totalProgression: 0.3 },
       },
     });
@@ -328,6 +333,8 @@ describe("Home API", () => {
 
     const older = await createBook(app, user3Cookie, "Finished Older");
     const newer = await createBook(app, user3Cookie, "Finished Newer");
+    const olderRep = await createBookRepresentation(db, older.id);
+    const newerRep = await createBookRepresentation(db, newer.id);
 
     await app.inject({
       method: "PUT",
@@ -338,6 +345,7 @@ describe("Home API", () => {
         "content-type": "application/json",
       },
       payload: {
+        representationId: olderRep,
         locator: { type: "epub-cfi", progression: 1, totalProgression: 1 },
       },
     });
@@ -353,6 +361,7 @@ describe("Home API", () => {
         "content-type": "application/json",
       },
       payload: {
+        representationId: newerRep,
         locator: { type: "epub-cfi", progression: 1, totalProgression: 1 },
       },
     });
